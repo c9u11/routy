@@ -10,11 +10,11 @@ Routy는 **사용자 식별 정보를 수집하지 않습니다**. 어떤 종류
 
 다음 데이터만 사용자의 단말기 내에 저장되며, 외부로 전송되지 않습니다.
 
-| 항목 | 용도 |
-|---|---|
-| `best_SPEED` | Speed 모드 최고 점수 |
-| `best_INFINITY` | Infinity 모드 최고 점수 |
-| `nc_tutorial_done` | 튜토리얼 시청 여부 |
+| 항목                | 용도                         |
+| ------------------- | ---------------------------- |
+| `best_SPEED`        | Speed 모드 최고 점수         |
+| `best_INFINITY`     | Infinity 모드 최고 점수      |
+| `nc_tutorial_done`  | 튜토리얼 시청 여부           |
 | `routy_settings_v1` | 진동·흔들림·사운드 토글 상태 |
 
 - **웹 환경**: 브라우저의 `localStorage`
@@ -39,6 +39,7 @@ Routy는 **어떠한 제3자와도 사용자 데이터를 공유하지 않습니
 ## 5. 권한
 
 본 앱은 다음 시스템 기능만 사용합니다:
+
 - **햅틱(진동)**: 게임 피드백 — 토스 SDK `generateHapticFeedback`
 - **로컬/미니앱 Storage**: 점수 / 설정 저장 (위 2번 항목)
 - **익명 식별 키**: 위 3번 항목
@@ -47,4 +48,4 @@ Routy는 **어떠한 제3자와도 사용자 데이터를 공유하지 않습니
 
 ## 6. 문의
 
-이메일: tjrdud6412@atlasnetworks.co.kr
+이메일: tjrdud6412@naver.com
