@@ -54,14 +54,14 @@ export default function HomeScreen({ onStart }: Props) {
       <div style={{ width: '100%', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 14 }}>
         <ModeCard
           title="Speed Mode"
-          desc="시간 내에 최대한 많은 경로를 연결"
+          desc="제한 시간 안에 최대한 많은 경로를 연결"
           icon="⚡"
           color="#1677ff"
           onClick={() => onStart('SPEED')}
         />
         <ModeCard
           title="Infinity Mode"
-          desc="멀리 돌아갈수록 점수 폭발 — 막힐 때까지"
+          desc="목숨 3개로 최장 경로를 찾아 무한 점수 도전"
           icon="∞"
           color="#722ed1"
           onClick={() => onStart('INFINITY')}

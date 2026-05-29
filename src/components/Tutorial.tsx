@@ -23,6 +23,11 @@ const STEPS = [
     title: '주황 테두리 노드',
     desc: '통과하면 인접한 방해물을 제거합니다. 적극 활용하세요!',
   },
+  {
+    icon: '🎮',
+    title: '모드 선택',
+    desc: 'Speed는 시간 제한 / Infinity는 목숨 3개로 최장 경로 도전.',
+  },
 ]
 
 export default function Tutorial({ onDone }: Props) {
