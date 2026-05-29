@@ -20,6 +20,8 @@ const TARGETS = [
   // PWA / TWA용 아이콘 (manifest.webmanifest에서 참조). public/ 직접 배치 → Vercel/번들에 그대로 포함.
   { src: 'public/logo-master.svg', out: 'public/icon-192.png', width: 192, height: 192, bg: '#1677ff' },
   { src: 'public/logo-master.svg', out: 'public/icon-512.png', width: 512, height: 512, bg: '#1677ff' },
+  // iOS 앱 아이콘 — 1024×1024 단일 파일 (Xcode 14+). 투명도 없음 = bg로 채움.
+  { src: 'public/logo-master.svg', out: 'ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png', width: 1024, height: 1024, bg: '#1677ff' },
 ]
 
 async function run() {
