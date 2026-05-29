@@ -2,9 +2,10 @@ import type { GameMode } from '../types/game'
 
 interface Props {
   onStart: (mode: GameMode) => void
+  onOpenSettings: () => void
 }
 
-export default function HomeScreen({ onStart }: Props) {
+export default function HomeScreen({ onStart, onOpenSettings }: Props) {
   return (
     <div
       style={{
@@ -15,8 +16,26 @@ export default function HomeScreen({ onStart }: Props) {
         justifyContent: 'center',
         padding: '32px 24px',
         background: 'white',
+        position: 'relative',
       }}
     >
+      <button
+        onClick={onOpenSettings}
+        aria-label="설정 열기"
+        style={{
+          position: 'absolute',
+          top: 20,
+          right: 22,
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          color: '#8c8c8c',
+          fontSize: 22,
+          padding: 4,
+        }}
+      >
+        ⚙
+      </button>
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
         <div
           style={{

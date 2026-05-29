@@ -8,12 +8,14 @@ import HUD from './components/HUD'
 import GameOverScreen from './components/GameOverScreen'
 import Tutorial from './components/Tutorial'
 import RoundRatingToast from './components/RoundRatingToast'
+import SettingsPanel from './components/SettingsPanel'
 
 const TUTORIAL_KEY = 'nc_tutorial_done'
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('HOME')
   const [showTutorial, setShowTutorial] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
   const [pendingMode, setPendingMode] = useState<GameMode | null>(null)
   const shakeRootRef = useRef<HTMLDivElement>(null)
 
@@ -56,8 +58,9 @@ export default function App() {
   if (screen === 'HOME') {
     return (
       <>
-        <HomeScreen onStart={handleStart} />
+        <HomeScreen onStart={handleStart} onOpenSettings={() => setShowSettings(true)} />
         {showTutorial && <Tutorial onDone={handleTutorialDone} />}
+        {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
       </>
     )
   }
@@ -75,8 +78,8 @@ export default function App() {
         gap: 24,
       }}
     >
-      {/* Back button */}
-      <div style={{ width: '100%', maxWidth: 400, display: 'flex', alignItems: 'center' }}>
+      {/* Top bar: back + settings */}
+      <div style={{ width: '100%', maxWidth: 400, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button
           onClick={handleHome}
           style={{
@@ -93,6 +96,20 @@ export default function App() {
           }}
         >
           ← 홈
+        </button>
+        <button
+          onClick={() => setShowSettings(true)}
+          aria-label="설정 열기"
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: '#8c8c8c',
+            fontSize: 20,
+            padding: 4,
+          }}
+        >
+          ⚙
         </button>
       </div>
 
@@ -124,6 +141,8 @@ export default function App() {
           lifeDelta={state.gameMode === 'INFINITY' ? state.lastLifeDelta : undefined}
         />
       )}
+
+      {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
     </div>
   )
 }
