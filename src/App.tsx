@@ -2,7 +2,10 @@ import { useState, useCallback, useEffect } from 'react'
 import { graniteEvent, closeView } from '@apps-in-toss/web-framework'
 import type { GameMode, Screen } from './types/game'
 import { useGameState } from './hooks/useGameState'
+import { reloadSettings } from './hooks/useSettings'
 import { registerShakeRoot } from './utils/feedback'
+import { getString, setString, hydrate } from './utils/storage'
+import { fetchAnonymousKey } from './utils/anonymousKey'
 import HomeScreen from './components/HomeScreen'
 import Grid from './components/Grid'
 import HUD from './components/HUD'
@@ -38,6 +41,13 @@ export default function App() {
     }
   }, [])
 
+  // 부팅 시 한 번: Toss Storage 백필 + 익명 키 prefetch.
+  // 둘 다 백그라운드. 렌더링은 차단하지 않음.
+  useEffect(() => {
+    hydrate().then(() => reloadSettings()).catch(() => {/* 무시 */})
+    fetchAnonymousKey().catch(() => {/* 무시 */})
+  }, [])
+
   const handleCloseConfirm = useCallback(() => {
     closeView().catch(() => {/* 무시 — 토스 외부에선 호출 실패해도 OK */})
   }, [])
@@ -48,7 +58,7 @@ export default function App() {
   }, [])
 
   const handleStart = useCallback((mode: GameMode) => {
-    const done = localStorage.getItem(TUTORIAL_KEY)
+    const done = getString(TUTORIAL_KEY)
     if (!done) {
       setPendingMode(mode)
       setShowTutorial(true)
@@ -59,7 +69,7 @@ export default function App() {
   }, [startGame])
 
   const handleTutorialDone = useCallback(() => {
-    localStorage.setItem(TUTORIAL_KEY, '1')
+    setString(TUTORIAL_KEY, '1')
     setShowTutorial(false)
     if (pendingMode) {
       startGame(pendingMode)

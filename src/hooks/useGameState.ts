@@ -23,6 +23,7 @@ import {
 import { vibrateNode, vibrateDestination, vibrateGameOver } from '../utils/haptic'
 import { shake } from '../utils/feedback'
 import { soundNodeConnect, soundDestination, soundGameOver, soundLifeLost } from '../utils/sound'
+import { getString, setString } from '../utils/storage'
 
 type Action =
   | { type: 'START_GAME'; gameMode: GameMode }
@@ -33,12 +34,12 @@ type Action =
   | { type: 'RESTART' }
 
 function getBestScore(mode: GameMode): number {
-  return parseInt(localStorage.getItem(`best_${mode}`) ?? '0', 10)
+  return parseInt(getString(`best_${mode}`) ?? '0', 10)
 }
 
 function setBestScore(mode: GameMode, score: number) {
   const current = getBestScore(mode)
-  if (score > current) localStorage.setItem(`best_${mode}`, String(score))
+  if (score > current) setString(`best_${mode}`, String(score))
 }
 
 function buildInitialState(gameMode: GameMode): GameState {
