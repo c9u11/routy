@@ -419,15 +419,34 @@ export function useGameState() {
     dispatch({ type: 'PATH_CANCEL' })
   }, [])
 
-  // Speed mode timer
+  // Speed mode timer — 백그라운드 전환 시 일시정지 (앱 전환/잠금 동안 시간이 흐르지 않도록)
   useEffect(() => {
     if (state.gameMode !== 'SPEED' || state.isGameOver) {
       if (timerRef.current) clearInterval(timerRef.current)
       return
     }
-    timerRef.current = setInterval(() => dispatch({ type: 'TICK' }), 100)
+
+    const start = () => {
+      if (timerRef.current) return
+      timerRef.current = setInterval(() => dispatch({ type: 'TICK' }), 100)
+    }
+    const stop = () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+        timerRef.current = null
+      }
+    }
+    const onVisibility = () => {
+      if (document.hidden) stop()
+      else start()
+    }
+
+    if (!document.hidden) start()
+    document.addEventListener('visibilitychange', onVisibility)
+
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
+      document.removeEventListener('visibilitychange', onVisibility)
+      stop()
     }
   }, [state.gameMode, state.isGameOver])
 
