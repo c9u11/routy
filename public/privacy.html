@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <title>Routy (길찾기 퍼즐) 개인정보 처리방침</title>
+  <style>
+    *,*::before,*::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+      color: #1a1a2e;
+      background: #fafbff;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      margin: 0 0 8px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 36px 0 12px;
+      padding-top: 16px;
+      border-top: 1px solid #ececf2;
+    }
+    .meta { color: #8c8c8c; font-size: 13px; margin: 0 0 24px; }
+    p { margin: 8px 0; }
+    ul { padding-left: 20px; margin: 8px 0; }
+    li { margin: 4px 0; }
+    code {
+      background: #f0f5ff;
+      color: #1677ff;
+      padding: 1px 6px;
+      border-radius: 6px;
+      font-size: 0.92em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #ececf2;
+      text-align: left;
+    }
+    th { color: #595959; font-weight: 700; background: #f7f8fc; }
+    strong { color: #1a1a2e; font-weight: 700; }
+    footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid #ececf2;
+      color: #bfbfbf;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Routy (길찾기 퍼즐) 개인정보 처리방침</h1>
+  <p class="meta">최종 수정: 2026-05-29</p>
+
+  <h2>1. 수집하는 정보</h2>
+  <p>Routy는 <strong>사용자 식별 정보를 수집하지 않습니다</strong>. 어떤 종류의 회원가입·로그인·계정도 요구하지 않으며, 개발자 또는 제3자 서버로 전송되는 사용자 데이터가 없습니다.</p>
+
+  <h2>2. 단말기 내 저장 데이터</h2>
+  <p>다음 데이터만 사용자의 단말기 내에 저장되며, 외부로 전송되지 않습니다.</p>
+  <table>
+    <thead><tr><th>항목</th><th>용도</th></tr></thead>
+    <tbody>
+      <tr><td><code>best_SPEED</code></td><td>Speed 모드 최고 점수</td></tr>
+      <tr><td><code>best_INFINITY</code></td><td>Infinity 모드 최고 점수</td></tr>
+      <tr><td><code>nc_tutorial_done</code></td><td>튜토리얼 시청 여부</td></tr>
+      <tr><td><code>routy_settings_v1</code></td><td>진동·흔들림·사운드 토글 상태</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><strong>웹 환경</strong>: 브라우저의 <code>localStorage</code></li>
+    <li><strong>토스 인앱</strong>: <code>localStorage</code>와 함께 토스 미니앱 Storage(<code>@apps-in-toss/web-framework</code>의 <code>Storage</code>)에 같은 키로 미러 저장. 토스 앱 캐시 정리나 재설치 시에도 진행도가 보존되도록 함.</li>
+  </ul>
+  <p>해당 데이터는 토스 앱 또는 브라우저의 데이터 삭제 기능으로 언제든 제거할 수 있습니다. 토스 미니앱 환경에서는 미니앱 내비게이션 바 &gt; 설정 &gt; "미니앱 용량 삭제"로도 제거 가능합니다.</p>
+
+  <h2>3. 토스 익명 식별 키</h2>
+  <p>토스 인앱에서 실행될 때, 토스 SDK의 <code>getAnonymousKey()</code>로 발급되는 <strong>익명 해시 값</strong>을 수신할 수 있습니다.</p>
+  <ul>
+    <li>사용자의 이름·전화번호·이메일 같은 개인식별정보(PII)가 <strong>아닙니다</strong>.</li>
+    <li>토스 사용자 ID도 <strong>아닙니다</strong>.</li>
+    <li>동일 미니앱 내에서 같은 사용자가 일관된 hash를 얻는 단순 식별자입니다.</li>
+    <li>현재는 캐시 외 용도로 사용되지 않으며, 향후 리더보드/광고 보상 어뷰징 방지 등에서 활용될 수 있습니다.</li>
+    <li>외부 서버로 전송되지 않습니다.</li>
+  </ul>
+
+  <h2>4. 제3자 공유</h2>
+  <p>Routy는 <strong>어떠한 제3자와도 사용자 데이터를 공유하지 않습니다.</strong> 광고 네트워크, 분석 도구, 외부 API를 사용하지 않습니다.</p>
+
+  <h2>5. 권한</h2>
+  <p>본 앱은 다음 시스템 기능만 사용합니다.</p>
+  <ul>
+    <li><strong>햅틱(진동)</strong>: 게임 피드백 — 토스 SDK <code>generateHapticFeedback</code></li>
+    <li><strong>로컬/미니앱 Storage</strong>: 점수 / 설정 저장 (위 2번 항목)</li>
+    <li><strong>익명 식별 키</strong>: 위 3번 항목</li>
+  </ul>
+  <p>별도의 카메라·위치·연락처·앨범·결제 권한을 요구하지 않습니다.</p>
+
+  <h2>6. 문의</h2>
+  <p>이메일: <a href="mailto:tjrdud6412@atlasnetworks.co.kr">tjrdud6412@atlasnetworks.co.kr</a></p>
+
+  <footer>© Routy / 길찾기 퍼즐</footer>
+</main>
+</body>
+</html>
