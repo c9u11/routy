@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import type { GameMode, Screen } from './types/game'
 import { useGameState } from './hooks/useGameState'
 import { registerShakeRoot } from './utils/feedback'
@@ -17,13 +17,12 @@ export default function App() {
   const [showTutorial, setShowTutorial] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [pendingMode, setPendingMode] = useState<GameMode | null>(null)
-  const shakeRootRef = useRef<HTMLDivElement>(null)
 
   const { state, startGame, restart, addNodeToPath, confirmPath, cancelPath } = useGameState()
 
-  useEffect(() => {
-    registerShakeRoot(shakeRootRef.current)
-    return () => registerShakeRoot(null)
+  // 게임 화면 div가 마운트될 때 자동 등록 (HOME → GAME 전환 시 ref가 늦게 잡히는 문제 회피)
+  const shakeRootRef = useCallback((el: HTMLDivElement | null) => {
+    registerShakeRoot(el)
   }, [])
 
   const handleStart = useCallback((mode: GameMode) => {
