@@ -39,36 +39,48 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
         <div
           style={{
-            width: 80,
-            height: 80,
-            borderRadius: 22,
-            background: '#1677ff',
-            margin: '0 auto 20px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 6px 20px rgba(22,119,255,0.35)',
+            gap: 14,
+            marginBottom: 12,
           }}
         >
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <path d="M16 16 L16 32 L32 32 L32 48 L48 48"
-              stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.95"/>
-            <circle cx="16" cy="32" r="3.5" fill="white" opacity="0.85"/>
-            <circle cx="32" cy="32" r="3.5" fill="white" opacity="0.85"/>
-            <circle cx="32" cy="48" r="3.5" fill="white" opacity="0.85"/>
-            <circle cx="48" cy="16" r="2" fill="white" opacity="0.3"/>
-            <circle cx="48" cy="32" r="2" fill="white" opacity="0.3"/>
-            <circle cx="16" cy="48" r="2" fill="white" opacity="0.3"/>
-            <circle cx="16" cy="16" r="5.5" fill="#4096ff" stroke="white" strokeWidth="2.2"/>
-            <circle cx="48" cy="48" r="5.5" fill="#52c41a" stroke="white" strokeWidth="2.2"/>
-          </svg>
+          <div
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: 16,
+              background: '#1677ff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 14px rgba(22,119,255,0.32)',
+              flexShrink: 0,
+            }}
+          >
+            <svg width="44" height="44" viewBox="0 0 64 64" fill="none">
+              <path d="M16 16 L16 32 L32 32 L32 48 L48 48"
+                stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.95"/>
+              <circle cx="16" cy="32" r="3.5" fill="white" opacity="0.85"/>
+              <circle cx="32" cy="32" r="3.5" fill="white" opacity="0.85"/>
+              <circle cx="32" cy="48" r="3.5" fill="white" opacity="0.85"/>
+              <circle cx="48" cy="16" r="2" fill="white" opacity="0.3"/>
+              <circle cx="48" cy="32" r="2" fill="white" opacity="0.3"/>
+              <circle cx="16" cy="48" r="2" fill="white" opacity="0.3"/>
+              <circle cx="16" cy="16" r="5.5" fill="#4096ff" stroke="white" strokeWidth="2.2"/>
+              <circle cx="48" cy="48" r="5.5" fill="#52c41a" stroke="white" strokeWidth="2.2"/>
+            </svg>
+          </div>
+          <div style={{ textAlign: 'left' }}>
+            <h1 style={{ fontSize: 26, fontWeight: 900, color: '#1a1a2e', margin: 0, lineHeight: 1.1 }}>
+              길찾기 퍼즐
+            </h1>
+            <p style={{ fontSize: 12, color: '#bfbfbf', margin: '4px 0 0', fontWeight: 700, letterSpacing: 1.2 }}>
+              ROUTY
+            </p>
+          </div>
         </div>
-        <h1 style={{ fontSize: 28, fontWeight: 900, color: '#1a1a2e', margin: '0 0 4px' }}>
-          길찾기 퍼즐
-        </h1>
-        <p style={{ fontSize: 13, color: '#bfbfbf', margin: '0 0 8px', fontWeight: 700, letterSpacing: 1 }}>
-          ROUTY
-        </p>
         <p style={{ fontSize: 15, color: '#8c8c8c', margin: 0, fontWeight: 500 }}>
           S에서 D까지 경로를 연결하세요
         </p>
