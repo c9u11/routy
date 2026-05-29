@@ -28,6 +28,13 @@ const PROFILES = {
     deviceScaleFactor: 3,
     outDir: 'assets/appstore/screenshots',
   },
+  ipad: {
+    // App Store Connect 13" iPad 슬롯 — 2048×2732 PNG (12.9" iPad Pro / 13" iPad Pro M4).
+    // logical 1024×1366 × DSR 2 = 픽셀 2048×2732.
+    viewport: { width: 1024, height: 1366 },
+    deviceScaleFactor: 2,
+    outDir: 'assets/appstore/screenshots-ipad',
+  },
 }
 
 const profile = PROFILES[process.env.SCREENSHOT_PROFILE ?? 'toss']
