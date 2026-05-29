@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react'
 import type { RoundRatingInfo } from '../types/game'
 
-const TIER_STYLE: Record<RoundRatingInfo['tier'], { label: string; color: string; sub?: string }> = {
-  EXCELLENT: { label: 'Excellent!', color: '#fa8c16', sub: '최장 경로 보너스' },
-  GOOD: { label: 'Good', color: '#1677ff' },
-  CLEAR: { label: 'Clear', color: '#8c8c8c' },
+type Mode = 'SPEED' | 'INFINITY'
+
+const TIER_STYLE: Record<Mode, Record<RoundRatingInfo['tier'], { label: string; color: string; sub?: string }>> = {
+  SPEED: {
+    EXCELLENT: { label: 'Excellent!', color: '#fa8c16', sub: '최장 경로 보너스' },
+    GOOD: { label: 'Good', color: '#1677ff' },
+    CLEAR: { label: 'Clear', color: '#8c8c8c' },
+  },
+  INFINITY: {
+    EXCELLENT: { label: '완벽!', color: '#fa8c16', sub: '최장 경로 + 트리거 모두 통과' },
+    GOOD: { label: '아쉬워요', color: '#1677ff', sub: '조금 더 길게 돌아가세요' },
+    CLEAR: { label: '위험!', color: '#cf1322', sub: '너무 짧은 경로' },
+  },
 }
 
 interface Props {
@@ -13,6 +22,7 @@ interface Props {
 }
 
 export default function RoundRatingToast({ info, lifeDelta }: Props) {
+  const mode: Mode = lifeDelta !== undefined ? 'INFINITY' : 'SPEED'
   const [visibleKey, setVisibleKey] = useState<number | null>(null)
 
   useEffect(() => {
@@ -24,7 +34,7 @@ export default function RoundRatingToast({ info, lifeDelta }: Props) {
 
   if (!info || visibleKey !== info.key) return null
 
-  const style = TIER_STYLE[info.tier]
+  const style = TIER_STYLE[mode][info.tier]
   const showBonus = info.tier === 'EXCELLENT' && info.bonus > 0
   const showLife = lifeDelta !== undefined && lifeDelta < 0
 
