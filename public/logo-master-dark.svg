@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" fill="none">
+  <!-- Dark-mode background: white panel (Toss dark theme is near-black; white icon pops cleanly) -->
+  <rect width="600" height="600" rx="132" fill="#ffffff"/>
+
+  <!-- Subtle soft inner shadow for depth -->
+  <rect x="0" y="0" width="600" height="600" rx="132" fill="url(#shade)" opacity="0.10"/>
+
+  <!-- Path: S → 3 waypoints → D, color inverted (brand blue stroke on white) -->
+  <path
+    d="M150 150 L150 300 L300 300 L300 450 L450 450"
+    stroke="#1677ff"
+    stroke-width="44"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+    opacity="0.95"
+  />
+
+  <!-- Path waypoint nodes (light blue) -->
+  <circle cx="150" cy="300" r="32" fill="#1677ff" opacity="0.7"/>
+  <circle cx="300" cy="300" r="32" fill="#1677ff" opacity="0.7"/>
+  <circle cx="300" cy="450" r="32" fill="#1677ff" opacity="0.7"/>
+
+  <!-- Decorative unused grid nodes -->
+  <circle cx="450" cy="150" r="18" fill="#1677ff" opacity="0.22"/>
+  <circle cx="450" cy="300" r="18" fill="#1677ff" opacity="0.22"/>
+  <circle cx="150" cy="450" r="18" fill="#1677ff" opacity="0.22"/>
+
+  <!-- S (start) — solid blue -->
+  <circle cx="150" cy="150" r="52" fill="#1677ff" stroke="white" stroke-width="20"/>
+
+  <!-- D (destination) — green -->
+  <circle cx="450" cy="450" r="52" fill="#52c41a" stroke="white" stroke-width="20"/>
+
+  <defs>
+    <radialGradient id="shade" cx="0.7" cy="0.75" r="0.95">
+      <stop offset="0%" stop-color="black" stop-opacity="0"/>
+      <stop offset="100%" stop-color="black" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+</svg>
