@@ -40,9 +40,12 @@ export default function HomeScreen({ onStart }: Props) {
             <line x1="34" y1="10" x2="34" y2="34" stroke="white" strokeWidth="3" strokeLinecap="round" />
           </svg>
         </div>
-        <h1 style={{ fontSize: 28, fontWeight: 900, color: '#1a1a2e', margin: '0 0 8px' }}>
-          Node Connect
+        <h1 style={{ fontSize: 28, fontWeight: 900, color: '#1a1a2e', margin: '0 0 4px' }}>
+          길찾기 퍼즐
         </h1>
+        <p style={{ fontSize: 13, color: '#bfbfbf', margin: '0 0 8px', fontWeight: 700, letterSpacing: 1 }}>
+          ROUTY
+        </p>
         <p style={{ fontSize: 15, color: '#8c8c8c', margin: 0, fontWeight: 500 }}>
           S에서 D까지 경로를 연결하세요
         </p>
