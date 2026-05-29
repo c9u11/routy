@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "deploy": "ait deploy",
     "icons": "node scripts/generate-icons.mjs",
-    "screenshots": "node scripts/generate-screenshots.mjs"
+    "screenshots": "node scripts/generate-screenshots.mjs",
+    "screenshots:appstore": "SCREENSHOT_PROFILE=appstore node scripts/generate-screenshots.mjs"
   },
   "devDependencies": {
     "@types/react": "^19.2.15",

@@ -12,9 +12,31 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
 
 const BASE = process.env.SCREENSHOT_BASE_URL ?? 'http://localhost:5173'
-const VIEWPORT = { width: 636, height: 1048 }
 
-const OUT_DIR = resolve(root, 'assets/console/screenshots')
+// 콘솔별로 캡처 묶음을 분리 — 토스(작은 세로) + App Store(큰 세로, 6.7" iPhone)
+const PROFILES = {
+  toss: {
+    viewport: { width: 636, height: 1048 },
+    deviceScaleFactor: 1,
+    outDir: 'assets/console/screenshots',
+  },
+  appstore: {
+    // iPhone 15 Pro Max — logical 430×932 × DSR 3 = 픽셀 1290×2796 PNG
+    // 앱은 logical 사이즈로 렌더링돼야 실기기와 동일한 레이아웃
+    viewport: { width: 430, height: 932 },
+    deviceScaleFactor: 3,
+    outDir: 'assets/appstore/screenshots',
+  },
+}
+
+const profile = PROFILES[process.env.SCREENSHOT_PROFILE ?? 'toss']
+if (!profile) {
+  console.error(`알 수 없는 프로필: ${process.env.SCREENSHOT_PROFILE}. toss 또는 appstore 사용.`)
+  process.exit(1)
+}
+
+const VIEWPORT = profile.viewport
+const OUT_DIR = resolve(root, profile.outDir)
 mkdirSync(OUT_DIR, { recursive: true })
 
 async function shot(page, name) {
@@ -27,7 +49,7 @@ async function run() {
   const browser = await chromium.launch()
   const ctx = await browser.newContext({
     viewport: VIEWPORT,
-    deviceScaleFactor: 1,
+    deviceScaleFactor: profile.deviceScaleFactor,
     isMobile: true,
     hasTouch: true,
     locale: 'ko-KR',
