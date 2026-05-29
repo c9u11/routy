@@ -47,16 +47,20 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            boxShadow: '0 6px 20px rgba(22,119,255,0.35)',
           }}
         >
-          <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-            <circle cx="10" cy="10" r="6" fill="white" />
-            <circle cx="34" cy="10" r="6" fill="rgba(255,255,255,0.5)" />
-            <circle cx="10" cy="34" r="6" fill="rgba(255,255,255,0.5)" />
-            <circle cx="34" cy="34" r="6" fill="white" />
-            <line x1="10" y1="10" x2="34" y2="10" stroke="white" strokeWidth="3" strokeLinecap="round" />
-            <line x1="10" y1="10" x2="10" y2="34" stroke="white" strokeWidth="3" strokeLinecap="round" />
-            <line x1="34" y1="10" x2="34" y2="34" stroke="white" strokeWidth="3" strokeLinecap="round" />
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <path d="M16 16 L16 32 L32 32 L32 48 L48 48"
+              stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.95"/>
+            <circle cx="16" cy="32" r="3.5" fill="white" opacity="0.85"/>
+            <circle cx="32" cy="32" r="3.5" fill="white" opacity="0.85"/>
+            <circle cx="32" cy="48" r="3.5" fill="white" opacity="0.85"/>
+            <circle cx="48" cy="16" r="2" fill="white" opacity="0.3"/>
+            <circle cx="48" cy="32" r="2" fill="white" opacity="0.3"/>
+            <circle cx="16" cy="48" r="2" fill="white" opacity="0.3"/>
+            <circle cx="16" cy="16" r="5.5" fill="#4096ff" stroke="white" strokeWidth="2.2"/>
+            <circle cx="48" cy="48" r="5.5" fill="#52c41a" stroke="white" strokeWidth="2.2"/>
           </svg>
         </div>
         <h1 style={{ fontSize: 28, fontWeight: 900, color: '#1a1a2e', margin: '0 0 4px' }}>
