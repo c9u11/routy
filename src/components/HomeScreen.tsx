@@ -82,7 +82,7 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
           </div>
         </div>
         <p style={{ fontSize: 15, color: '#8c8c8c', margin: 0, fontWeight: 500 }}>
-          S에서 D까지 경로를 연결하세요
+          시작에서 도착까지 경로를 연결하세요
         </p>
       </div>
 
