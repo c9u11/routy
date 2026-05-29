@@ -17,6 +17,9 @@ const TARGETS = [
   { src: 'public/logo-master.svg', out: 'assets/console/icon-600.png', width: 600, height: 600, bg: '#1677ff' },
   { src: 'public/logo-master-dark.svg', out: 'assets/console/icon-600-dark.png', width: 600, height: 600, bg: '#ffffff' },
   { src: 'public/thumbnail-master.svg', out: 'assets/console/thumbnail-1932x828.png', width: 1932, height: 828, bg: '#fafbff' },
+  // PWA / TWA용 아이콘 (manifest.webmanifest에서 참조). public/ 직접 배치 → Vercel/번들에 그대로 포함.
+  { src: 'public/logo-master.svg', out: 'public/icon-192.png', width: 192, height: 192, bg: '#1677ff' },
+  { src: 'public/logo-master.svg', out: 'public/icon-512.png', width: 512, height: 512, bg: '#1677ff' },
 ]
 
 async function run() {
