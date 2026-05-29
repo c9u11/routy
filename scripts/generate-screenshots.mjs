@@ -21,9 +21,10 @@ const PROFILES = {
     outDir: 'assets/console/screenshots',
   },
   appstore: {
-    // iPhone 15 Pro Max — logical 430×932 × DSR 3 = 픽셀 1290×2796 PNG
-    // 앱은 logical 사이즈로 렌더링돼야 실기기와 동일한 레이아웃
-    viewport: { width: 430, height: 932 },
+    // App Store Connect 6.5"/6.7" 슬롯이 요구하는 1284×2778 (또는 1242×2688) 중 큰 쪽.
+    // iPhone 11 Pro Max / 14 Pro Max — logical 428×926 × DSR 3 = 픽셀 1284×2778.
+    // 1290×2796 (6.9", iPhone 15 Pro Max)은 별도 슬롯이라 본 슬롯에 업로드 불가.
+    viewport: { width: 428, height: 926 },
     deviceScaleFactor: 3,
     outDir: 'assets/appstore/screenshots',
   },
