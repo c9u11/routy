@@ -14,8 +14,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
 
 const TARGETS = [
-  { src: 'public/logo-master.svg', out: 'assets/console/icon-600.png', size: 600 },
-  // 필요 시 다른 크기도 여기에 추가
+  { src: 'public/logo-master.svg', out: 'assets/console/icon-600.png', width: 600, height: 600 },
+  { src: 'public/thumbnail-master.svg', out: 'assets/console/thumbnail-1932x828.png', width: 1932, height: 828 },
 ]
 
 async function run() {
@@ -25,16 +25,16 @@ async function run() {
     const html = `<!doctype html>
 <html><head><style>
   html,body { margin:0; padding:0; background:#1677ff; }
-  svg { display:block; width:${t.size}px; height:${t.size}px; }
+  svg { display:block; width:${t.width}px; height:${t.height}px; }
 </style></head><body>${svgText}</body></html>`
 
-    const page = await browser.newPage({ viewport: { width: t.size, height: t.size }, deviceScaleFactor: 1 })
+    const page = await browser.newPage({ viewport: { width: t.width, height: t.height }, deviceScaleFactor: 1 })
     await page.setContent(html, { waitUntil: 'load' })
     const outPath = resolve(root, t.out)
     mkdirSync(dirname(outPath), { recursive: true })
     await page.screenshot({ path: outPath, type: 'png', omitBackground: false, fullPage: false })
     await page.close()
-    console.log(`✓ ${t.out} (${t.size}×${t.size})`)
+    console.log(`✓ ${t.out} (${t.width}×${t.height})`)
   }
   await browser.close()
 }
