@@ -36,3 +36,6 @@ twa/.gradle/
 twa/local.properties
 twa/*.apk
 twa/*.aab
+
+# PWABuilder 생성 패키지 — 서명 키스토어 + 비밀번호 + 빌드 산출물 포함, 절대 커밋 금지
+Routy - Google Play package/
