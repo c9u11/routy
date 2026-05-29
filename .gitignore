@@ -25,3 +25,14 @@ dist-ssr
 
 .granite
 *.ait
+
+# TWA (Bubblewrap) — 서명 키스토어는 절대 커밋 금지, 빌드 산출물도 제외
+twa/android.keystore
+twa/*.keystore
+twa/*.jks
+twa/app/build/
+twa/build/
+twa/.gradle/
+twa/local.properties
+twa/*.apk
+twa/*.aab
