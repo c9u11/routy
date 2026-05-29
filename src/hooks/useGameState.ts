@@ -22,6 +22,7 @@ import {
 } from '../utils/scoring'
 import { vibrateNode, vibrateDestination, vibrateGameOver } from '../utils/haptic'
 import { shake } from '../utils/feedback'
+import { soundNodeConnect, soundDestination, soundGameOver, soundLifeLost } from '../utils/sound'
 
 type Action =
   | { type: 'START_GAME'; gameMode: GameMode }
@@ -157,6 +158,7 @@ function reducer(state: GameState, action: Action): GameState {
       if (targetNode.type === 'OBSTACLE' && !targetNode.isPendingRemoval) return state
 
       vibrateNode()
+      soundNodeConnect()
 
       const newPath = [...path, nodeId]
 
@@ -168,6 +170,7 @@ function reducer(state: GameState, action: Action): GameState {
       if (targetNode.type === 'DESTINATION') {
         vibrateDestination()
         shake('medium')
+        soundDestination()
         return reducer(
           { ...state, matrix: newMatrix, currentPath: newPath },
           { type: 'PATH_CONFIRM' }
@@ -258,6 +261,7 @@ function reducer(state: GameState, action: Action): GameState {
       // 목숨 차감: Excellent ±0 / Good -1 / Clear -3
       const lifeDelta = infRating === 'EXCELLENT' ? 0 : infRating === 'GOOD' ? -1 : -3
       const newLives = (state.lives ?? INFINITY_INITIAL_LIVES) + lifeDelta
+      if (lifeDelta < 0) soundLifeLost()
 
       const newBestScore = Math.max(newScore, state.bestScore)
       setBestScore(state.gameMode, newScore)
@@ -266,6 +270,7 @@ function reducer(state: GameState, action: Action): GameState {
       if (newLives <= 0) {
         vibrateGameOver()
         shake('heavy')
+        soundGameOver()
         return {
           ...state,
           score: newScore,
@@ -309,6 +314,7 @@ function reducer(state: GameState, action: Action): GameState {
       if (!newDestId) {
         vibrateGameOver()
         shake('heavy')
+        soundGameOver()
         return {
           ...state,
           score: newScore,
@@ -329,6 +335,7 @@ function reducer(state: GameState, action: Action): GameState {
       if (gridlocked) {
         vibrateGameOver()
         shake('heavy')
+        soundGameOver()
         return {
           ...state,
           score: newScore,
@@ -371,6 +378,7 @@ function reducer(state: GameState, action: Action): GameState {
       if (newTime <= 0) {
         vibrateGameOver()
         shake('heavy')
+        soundGameOver()
         setBestScore(state.gameMode, state.score)
         return {
           ...state,
