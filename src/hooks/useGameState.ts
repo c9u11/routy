@@ -21,6 +21,7 @@ import {
   applyRatingBonus,
 } from '../utils/scoring'
 import { vibrateNode, vibrateDestination, vibrateGameOver } from '../utils/haptic'
+import { shake } from '../utils/feedback'
 
 type Action =
   | { type: 'START_GAME'; gameMode: GameMode }
@@ -166,6 +167,7 @@ function reducer(state: GameState, action: Action): GameState {
       // 도착지 진입 시 즉시 자동 라운드 전환 (손 안 떼도 됨)
       if (targetNode.type === 'DESTINATION') {
         vibrateDestination()
+        shake('medium')
         return reducer(
           { ...state, matrix: newMatrix, currentPath: newPath },
           { type: 'PATH_CONFIRM' }
@@ -263,6 +265,7 @@ function reducer(state: GameState, action: Action): GameState {
       // 목숨 소진 → 즉시 게임오버
       if (newLives <= 0) {
         vibrateGameOver()
+        shake('heavy')
         return {
           ...state,
           score: newScore,
@@ -305,6 +308,7 @@ function reducer(state: GameState, action: Action): GameState {
       // 극단적 케이스: D 둘 자리조차 없으면 즉시 게임오버 (이론상 거의 발생 X)
       if (!newDestId) {
         vibrateGameOver()
+        shake('heavy')
         return {
           ...state,
           score: newScore,
@@ -324,6 +328,7 @@ function reducer(state: GameState, action: Action): GameState {
       const gridlocked = !hasPath(workMatrix, newStartId, newDestId)
       if (gridlocked) {
         vibrateGameOver()
+        shake('heavy')
         return {
           ...state,
           score: newScore,
@@ -365,6 +370,7 @@ function reducer(state: GameState, action: Action): GameState {
       const newTime = state.timeRemaining - 0.1
       if (newTime <= 0) {
         vibrateGameOver()
+        shake('heavy')
         setBestScore(state.gameMode, state.score)
         return {
           ...state,

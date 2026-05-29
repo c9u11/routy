@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import type { GameMode, Screen } from './types/game'
 import { useGameState } from './hooks/useGameState'
+import { registerShakeRoot } from './utils/feedback'
 import HomeScreen from './components/HomeScreen'
 import Grid from './components/Grid'
 import HUD from './components/HUD'
@@ -14,8 +15,14 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>('HOME')
   const [showTutorial, setShowTutorial] = useState(false)
   const [pendingMode, setPendingMode] = useState<GameMode | null>(null)
+  const shakeRootRef = useRef<HTMLDivElement>(null)
 
   const { state, startGame, restart, addNodeToPath, confirmPath, cancelPath } = useGameState()
+
+  useEffect(() => {
+    registerShakeRoot(shakeRootRef.current)
+    return () => registerShakeRoot(null)
+  }, [])
 
   const handleStart = useCallback((mode: GameMode) => {
     const done = localStorage.getItem(TUTORIAL_KEY)
@@ -57,6 +64,7 @@ export default function App() {
 
   return (
     <div
+      ref={shakeRootRef}
       style={{
         minHeight: '100dvh',
         display: 'flex',
