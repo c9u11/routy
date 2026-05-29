@@ -22,19 +22,33 @@ export function getAdjacent(id: string, gridSize: number): string[] {
     .map(([nr, nc]) => makeId(nr, nc))
 }
 
-// S→D 사이 OBSTACLE을 피하는 최장 단순 경로의 waypoints 수(=path length - 2)를 반환.
-// DFS+백트래킹 — 큰 그리드(7×7, 8×8)에서 폭주 방지를 위해 iteration cap.
-// 한도 도달 시 그 시점까지 찾은 best를 lower bound로 반환 (rating 용도엔 충분).
+// S→D 최장 경로의 waypoints 수(=path length - 2)를 반환.
+// 게임 규칙 반영: trigger 셀을 거치면 해당 obstacle도 통과 가능 노드가 됨.
+// DFS 상태에 triggered set을 함께 추적해 trigger를 거친 뒤에는 그 obstacle을 지나갈 수 있도록 함.
+// 큰 그리드(7×7, 8×8) + trigger 상태 폭증 방지를 위해 iteration cap. 한도 도달 시 lower bound 반환.
 const LONGEST_PATH_MAX_ITER = 200_000
 
 export function findLongestPathWaypoints(matrix: NodeData[][], startId: string, destId: string): number {
   const gridSize = matrix.length
-  const obstacleSet = new Set<string>()
-  matrix.forEach(row => row.forEach(node => {
-    if (node.type === 'OBSTACLE') obstacleSet.add(node.id)
-  }))
+
+  // triggerId → obstacleId 매핑 구축
+  const triggerToObstacle = new Map<string, string>()
+  for (const row of matrix) {
+    for (const node of row) {
+      if (node.type !== 'OBSTACLE' || !node.breakDirection) continue
+      const [r, c] = node.id.split('-').map(Number)
+      let tr = r, tc = c
+      if (node.breakDirection === 'UP') tr--
+      else if (node.breakDirection === 'DOWN') tr++
+      else if (node.breakDirection === 'LEFT') tc--
+      else if (node.breakDirection === 'RIGHT') tc++
+      if (tr < 0 || tr >= gridSize || tc < 0 || tc >= gridSize) continue
+      triggerToObstacle.set(makeId(tr, tc), node.id)
+    }
+  }
 
   const visited = new Set<string>([startId])
+  const triggered = new Set<string>()
   let longest = 0
   let iterations = 0
   let capped = false
@@ -50,10 +64,21 @@ export function findLongestPathWaypoints(matrix: NodeData[][], startId: string, 
       return
     }
     for (const neighbor of getAdjacent(current, gridSize)) {
-      if (visited.has(neighbor) || obstacleSet.has(neighbor)) continue
+      if (visited.has(neighbor)) continue
+      const [nr, nc] = neighbor.split('-').map(Number)
+      const node = matrix[nr][nc]
+      // OBSTACLE은 triggered set에 포함되어 있어야 통과 가능
+      if (node.type === 'OBSTACLE' && !triggered.has(neighbor)) continue
+
+      const obsToTrigger = triggerToObstacle.get(neighbor)
+      const newlyTriggered = obsToTrigger && !triggered.has(obsToTrigger) ? obsToTrigger : null
+
       visited.add(neighbor)
+      if (newlyTriggered) triggered.add(newlyTriggered)
       dfs(neighbor, length + 1)
       visited.delete(neighbor)
+      if (newlyTriggered) triggered.delete(newlyTriggered)
+
       if (capped) return
     }
   }
