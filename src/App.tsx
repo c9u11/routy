@@ -101,7 +101,11 @@ export default function App() {
         flexDirection: 'column',
         alignItems: 'center',
         background: '#fafbff',
-        padding: '20px 24px 40px',
+        // Safe area 적용: 노치/Dynamic Island/홈 인디케이터 가려짐 방지
+        paddingTop: 'max(20px, env(safe-area-inset-top))',
+        paddingBottom: 'max(40px, env(safe-area-inset-bottom))',
+        paddingLeft: 'max(24px, env(safe-area-inset-left))',
+        paddingRight: 'max(24px, env(safe-area-inset-right))',
         gap: 24,
       }}
     >

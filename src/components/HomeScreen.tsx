@@ -14,7 +14,11 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '32px 24px',
+        // Safe area 적용
+        paddingTop: 'max(32px, env(safe-area-inset-top))',
+        paddingBottom: 'max(32px, env(safe-area-inset-bottom))',
+        paddingLeft: 'max(24px, env(safe-area-inset-left))',
+        paddingRight: 'max(24px, env(safe-area-inset-right))',
         background: 'white',
         position: 'relative',
       }}
@@ -24,8 +28,8 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
         aria-label="설정 열기"
         style={{
           position: 'absolute',
-          top: 20,
-          right: 22,
+          top: 'max(20px, env(safe-area-inset-top))',
+          right: 'max(22px, env(safe-area-inset-right))',
           background: 'none',
           border: 'none',
           cursor: 'pointer',
