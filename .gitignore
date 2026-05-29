@@ -39,3 +39,15 @@ twa/*.aab
 
 # PWABuilder 생성 패키지 — 서명 키스토어 + 비밀번호 + 빌드 산출물 포함, 절대 커밋 금지
 Routy - Google Play package/
+
+# Capacitor iOS — Pods는 cap sync로 재생성, 사용자별 Xcode 상태는 무시
+ios/App/Pods/
+ios/App/App.xcworkspace/xcuserdata/
+ios/App/App.xcodeproj/xcuserdata/
+ios/App/App.xcodeproj/project.xcworkspace/xcuserdata/
+ios/App/build/
+ios/DerivedData/
+ios/App/App/public/
+# 첫 빌드 시 자동 생성되는 임시 파일들
+ios/App/App.xcworkspace/contents.xcworkspacedata
+*.xcuserstate
