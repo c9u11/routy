@@ -1,0 +1,45 @@
+// 토스 콘솔 업로드용 아이콘 PNG 생성기.
+// 사용: node scripts/generate-icons.mjs
+// 출력: assets/console/icon-600.png 등.
+//
+// playwright를 headless Chromium 모드로 띄워 SVG를 정확한 픽셀 크기로 렌더링.
+// macOS sips는 SVG 지원이 빈약해서 playwright가 더 안전.
+
+import { chromium } from 'playwright'
+import { readFileSync, mkdirSync } from 'node:fs'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const root = resolve(__dirname, '..')
+
+const TARGETS = [
+  { src: 'public/logo-master.svg', out: 'assets/console/icon-600.png', size: 600 },
+  // 필요 시 다른 크기도 여기에 추가
+]
+
+async function run() {
+  const browser = await chromium.launch()
+  for (const t of TARGETS) {
+    const svgText = readFileSync(resolve(root, t.src), 'utf8')
+    const html = `<!doctype html>
+<html><head><style>
+  html,body { margin:0; padding:0; background:#1677ff; }
+  svg { display:block; width:${t.size}px; height:${t.size}px; }
+</style></head><body>${svgText}</body></html>`
+
+    const page = await browser.newPage({ viewport: { width: t.size, height: t.size }, deviceScaleFactor: 1 })
+    await page.setContent(html, { waitUntil: 'load' })
+    const outPath = resolve(root, t.out)
+    mkdirSync(dirname(outPath), { recursive: true })
+    await page.screenshot({ path: outPath, type: 'png', omitBackground: false, fullPage: false })
+    await page.close()
+    console.log(`✓ ${t.out} (${t.size}×${t.size})`)
+  }
+  await browser.close()
+}
+
+run().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

@@ -10,7 +10,8 @@
     "build:vite": "tsc && vite build",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
-    "deploy": "ait deploy"
+    "deploy": "ait deploy",
+    "icons": "node scripts/generate-icons.mjs"
   },
   "devDependencies": {
     "@types/react": "^19.2.15",
