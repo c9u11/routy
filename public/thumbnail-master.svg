@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1932" height="828" viewBox="0 0 1932 828" fill="none">
-  <!-- Background -->
-  <rect width="1932" height="828" fill="#1677ff"/>
+  <!-- Background: light, off-white (#fafbff matches the app surface) for high text contrast -->
+  <rect width="1932" height="828" fill="#fafbff"/>
 
-  <!-- Subtle radial highlight -->
-  <rect width="1932" height="828" fill="url(#glow)" opacity="0.22"/>
+  <!-- Subtle diagonal highlight in top-right -->
+  <rect width="1932" height="828" fill="url(#glow)" opacity="0.35"/>
 
-  <!-- Left side: logo (centered around x=500, y=414) -->
+  <!-- Left side: blue logo panel (becomes the colored accent in the composition) -->
   <g transform="translate(290, 204)">
-    <!-- White rounded background panel for the logo -->
-    <rect x="0" y="0" width="420" height="420" rx="92" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
-    <!-- Logo path (mirrored from logo-master.svg, scaled) -->
+    <rect x="0" y="0" width="420" height="420" rx="92" fill="#1677ff"/>
+    <rect x="0" y="0" width="420" height="420" rx="92" fill="url(#panelShade)" opacity="0.18"/>
+    <!-- Logo at 0.5× scale inside the panel -->
     <g transform="translate(60, 60) scale(0.5)">
       <path d="M150 150 L150 300 L300 300 L300 450 L450 450"
         stroke="white" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.96"/>
@@ -24,15 +24,25 @@
     </g>
   </g>
 
-  <!-- Right side: title + tagline -->
+  <!-- Right side: title + tagline on white background — much more readable -->
   <g transform="translate(840, 290)">
-    <text x="0" y="0" fill="white" font-family="-apple-system, 'Pretendard', 'Noto Sans KR', sans-serif" font-size="130" font-weight="900" letter-spacing="-2">길찾기 퍼즐</text>
-    <text x="0" y="80" fill="rgba(255,255,255,0.6)" font-family="-apple-system, sans-serif" font-size="42" font-weight="800" letter-spacing="6">ROUTY</text>
-    <text x="0" y="200" fill="rgba(255,255,255,0.92)" font-family="-apple-system, 'Pretendard', 'Noto Sans KR', sans-serif" font-size="46" font-weight="500">한 번의 드래그로 잇는 미니 두뇌 퍼즐</text>
+    <text x="0" y="0" fill="#1a1a2e"
+      font-family="-apple-system, 'Pretendard', 'Noto Sans KR', sans-serif"
+      font-size="138" font-weight="900" letter-spacing="-3">길찾기 퍼즐</text>
+    <text x="0" y="80" fill="#1677ff"
+      font-family="-apple-system, sans-serif"
+      font-size="44" font-weight="800" letter-spacing="8">ROUTY</text>
+    <text x="0" y="208" fill="#595959"
+      font-family="-apple-system, 'Pretendard', 'Noto Sans KR', sans-serif"
+      font-size="44" font-weight="500">한 번의 드래그로 잇는 미니 두뇌 퍼즐</text>
   </g>
 
   <defs>
-    <radialGradient id="glow" cx="0.18" cy="0.2" r="0.95">
+    <radialGradient id="glow" cx="0.85" cy="0.15" r="0.7">
+      <stop offset="0%" stop-color="#1677ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#1677ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="panelShade" cx="0.25" cy="0.2" r="0.9">
       <stop offset="0%" stop-color="white" stop-opacity="0.55"/>
       <stop offset="100%" stop-color="white" stop-opacity="0"/>
     </radialGradient>

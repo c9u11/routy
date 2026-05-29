@@ -16,7 +16,7 @@ const root = resolve(__dirname, '..')
 const TARGETS = [
   { src: 'public/logo-master.svg', out: 'assets/console/icon-600.png', width: 600, height: 600, bg: '#1677ff' },
   { src: 'public/logo-master-dark.svg', out: 'assets/console/icon-600-dark.png', width: 600, height: 600, bg: '#ffffff' },
-  { src: 'public/thumbnail-master.svg', out: 'assets/console/thumbnail-1932x828.png', width: 1932, height: 828, bg: '#1677ff' },
+  { src: 'public/thumbnail-master.svg', out: 'assets/console/thumbnail-1932x828.png', width: 1932, height: 828, bg: '#fafbff' },
 ]
 
 async function run() {
