@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+import { graniteEvent, closeView } from '@apps-in-toss/web-framework'
 import type { GameMode, Screen } from './types/game'
 import { useGameState } from './hooks/useGameState'
 import { registerShakeRoot } from './utils/feedback'
@@ -9,6 +10,7 @@ import GameOverScreen from './components/GameOverScreen'
 import Tutorial from './components/Tutorial'
 import RoundRatingToast from './components/RoundRatingToast'
 import SettingsPanel from './components/SettingsPanel'
+import CloseConfirmModal from './components/CloseConfirmModal'
 
 const TUTORIAL_KEY = 'nc_tutorial_done'
 
@@ -16,9 +18,29 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>('HOME')
   const [showTutorial, setShowTutorial] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [showCloseConfirm, setShowCloseConfirm] = useState(false)
   const [pendingMode, setPendingMode] = useState<GameMode | null>(null)
 
   const { state, startGame, restart, addNodeToPath, confirmPath, cancelPath } = useGameState()
+
+  // 토스 인앱 X 버튼 인터셉트 — 가이드상 종료 확인 모달 노출 필수.
+  // graniteEvent.backEvent는 토스 환경에서만 fire되며, 리스너 등록 시 기본 닫기는 차단됨.
+  // Vercel/로컬 환경에서는 무동작 (try/catch로 보호).
+  useEffect(() => {
+    try {
+      const unsubscribe = graniteEvent.addEventListener('backEvent', {
+        onEvent: () => setShowCloseConfirm(true),
+        onError: () => {/* 무시 */},
+      })
+      return unsubscribe
+    } catch {
+      return undefined
+    }
+  }, [])
+
+  const handleCloseConfirm = useCallback(() => {
+    closeView().catch(() => {/* 무시 — 토스 외부에선 호출 실패해도 OK */})
+  }, [])
 
   // 게임 화면 div가 마운트될 때 자동 등록 (HOME → GAME 전환 시 ref가 늦게 잡히는 문제 회피)
   const shakeRootRef = useCallback((el: HTMLDivElement | null) => {
@@ -60,6 +82,12 @@ export default function App() {
         <HomeScreen onStart={handleStart} onOpenSettings={() => setShowSettings(true)} />
         {showTutorial && <Tutorial onDone={handleTutorialDone} />}
         {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+        {showCloseConfirm && (
+          <CloseConfirmModal
+            onCancel={() => setShowCloseConfirm(false)}
+            onConfirm={handleCloseConfirm}
+          />
+        )}
       </>
     )
   }
@@ -142,6 +170,12 @@ export default function App() {
       )}
 
       {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+      {showCloseConfirm && (
+        <CloseConfirmModal
+          onCancel={() => setShowCloseConfirm(false)}
+          onConfirm={handleCloseConfirm}
+        />
+      )}
     </div>
   )
 }
