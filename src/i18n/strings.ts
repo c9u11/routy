@@ -18,6 +18,9 @@ const ko = {
   hud: {
     settingsAria: '설정 열기',
   },
+  nav: {
+    home: '홈',
+  },
   node: {
     start: '시작',
     goal: '도착',
@@ -116,6 +119,9 @@ const en: Messages = {
   },
   hud: {
     settingsAria: 'Open settings',
+  },
+  nav: {
+    home: 'Home',
   },
   node: {
     start: 'Start',

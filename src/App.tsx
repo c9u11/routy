@@ -4,6 +4,7 @@ import type { GameMode, Screen } from './types/game'
 import { useGameState } from './hooks/useGameState'
 import { reloadSettings, useSettings } from './hooks/useSettings'
 import { useTheme, applyDocumentChrome } from './theme/theme'
+import { useT } from './i18n/strings'
 import { registerShakeRoot } from './utils/feedback'
 import { getString, setString, hydrate } from './utils/storage'
 import { fetchAnonymousKey } from './utils/anonymousKey'
@@ -28,6 +29,7 @@ export default function App() {
   const { state, startGame, restart, addNodeToPath, confirmPath, cancelPath } = useGameState()
   const { lang } = useSettings()
   const theme = useTheme()
+  const t = useT()
 
   // 언어 변경 시 <html lang> 동기화 (접근성/스크린리더)
   useEffect(() => {
@@ -163,7 +165,7 @@ export default function App() {
             gap: 4,
           }}
         >
-          ← 홈
+          ← {t.nav.home}
         </button>
       </div>
 
