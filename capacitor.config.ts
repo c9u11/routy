@@ -7,13 +7,15 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: 'always',
     scrollEnabled: false,
-    // 토스/Play와 동일한 brand color
-    backgroundColor: '#1677ff',
+    // 안전영역(노치/홈 인디케이터)에 보이는 네이티브 배경.
+    // 앱 배경(흰색)과 맞춰 상/하단 파란 레터박스 제거. 다크 모드 시 런타임에서 갱신.
+    backgroundColor: '#ffffff',
   },
   plugins: {
     StatusBar: {
+      // Capacitor Style.Light = 밝은 배경 위 '어두운 글자' (직관과 반대)
       style: 'LIGHT',
-      backgroundColor: '#1677ff',
+      backgroundColor: '#ffffff',
       overlaysWebView: false,
     },
     SplashScreen: {
