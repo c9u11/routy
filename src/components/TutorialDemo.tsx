@@ -25,19 +25,19 @@ const SPECS: Record<GameMode, DemoSpec> = {
     obstacles: [],
     path: [[0, 0], [1, 0], [2, 0], [2, 1], [1, 1], [0, 1], [0, 2], [1, 2], [2, 2]],
   },
-  // 최장 경로로 빙 돌아가며, 트리거(주황)를 지나 방해물(빨강)을 통과하는 시연
+  // 진짜 최장 경로 시연. 4×4에서 (0,0)→(3,3)은 동일 색이라 16칸 전체는 불가능,
+  // 최대 15칸(1칸만 건너뜀)이 최장. (0,1)트리거 → (1,1)방해물 통과 포함.
   INFINITY: {
     size: 4,
     start: [0, 0],
     goal: [3, 3],
-    triggers: [[1, 2]],
-    obstacles: [{ pos: [1, 1], dir: 'RIGHT' }],
-    // 16칸 중 13칸을 거치는 winding path — (1,2)트리거 → (1,1)방해물 통과 포함
+    triggers: [[0, 1]],
+    obstacles: [{ pos: [1, 1], dir: 'UP' }],
     path: [
       [0, 0], [0, 1], [0, 2], [0, 3],
       [1, 3], [1, 2], [1, 1], [1, 0],
-      [2, 0], [2, 1], [2, 2], [2, 3],
-      [3, 3],
+      [2, 0], [2, 1], [3, 1], [3, 2],
+      [2, 2], [2, 3], [3, 3],
     ],
   },
 }
@@ -90,7 +90,7 @@ export default function TutorialDemo({ mode }: { mode: GameMode }) {
     const timer = setInterval(() => {
       s = s >= spec.path.length + HOLD ? 1 : s + 1
       setStep(s)
-    }, 480)
+    }, 400)
     return () => clearInterval(timer)
   }, [mode, spec.path.length])
 
