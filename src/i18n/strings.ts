@@ -7,6 +7,7 @@ import { useSettings } from '../hooks/useSettings'
 const ko = {
   home: {
     title: '길찾기 퍼즐',
+    tagline: 'ROUTY',
     subtitle: '시작에서 도착까지 경로를 연결하세요',
     speedTitle: 'Speed Mode',
     speedDesc: '제한 시간 안에 최대한 많은 경로를 연결',
@@ -104,7 +105,8 @@ type Messages = typeof ko
 
 const en: Messages = {
   home: {
-    title: 'Path Puzzle',
+    title: 'Routy',
+    tagline: 'PATH PUZZLE',
     subtitle: 'Connect a path from start to goal',
     speedTitle: 'Speed Mode',
     speedDesc: 'Connect as many paths as you can before time runs out',

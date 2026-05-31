@@ -71,7 +71,7 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
               {t.home.title}
             </h1>
             <p style={{ fontSize: 12, color: c.textFaint, margin: '4px 0 0', fontWeight: 700, letterSpacing: 1.2 }}>
-              ROUTY
+              {t.home.tagline}
             </p>
           </div>
         </div>
