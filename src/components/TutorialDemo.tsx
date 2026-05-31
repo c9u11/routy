@@ -141,22 +141,31 @@ export default function TutorialDemo({ mode }: { mode: GameMode }) {
 
   const tierLabel = (mode === 'INFINITY' ? t.toast.infinity : t.toast.speed)[variant.tier].label
   const tierColor = TIER_COLOR[mode][variant.tier]
+  // 인피니티는 평점에 따른 목숨 변화를 함께 표시
+  const lifeNote = mode === 'INFINITY' ? t.tutorial.lives[variant.tier] : null
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-      {/* 현재 시연 중인 평점 배지 */}
-      <div
-        style={{
-          padding: '4px 14px',
-          borderRadius: 99,
-          background: tierColor,
-          color: 'white',
-          fontSize: 14,
-          fontWeight: 800,
-          transition: 'background 0.2s',
-        }}
-      >
-        {tierLabel}
+      {/* 현재 시연 중인 평점 배지 (+ 인피니티: 목숨 변화) */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div
+          style={{
+            padding: '4px 14px',
+            borderRadius: 99,
+            background: tierColor,
+            color: 'white',
+            fontSize: 14,
+            fontWeight: 800,
+            transition: 'background 0.2s',
+          }}
+        >
+          {tierLabel}
+        </div>
+        {lifeNote && (
+          <span style={{ fontSize: 13, fontWeight: 800, color: tierColor }}>
+            {variant.tier === 'EXCELLENT' ? '❤️' : '💔'} {lifeNote}
+          </span>
+        )}
       </div>
 
       <div style={{ position: 'relative', width: total, height: total }}>

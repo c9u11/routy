@@ -72,6 +72,7 @@ const ko = {
       '거쳐 간 중간 노드가 많을수록 점수가 커져요.',
     ],
     scoreTitle: '점수 구조',
+    lives: { EXCELLENT: '목숨 유지', GOOD: '목숨 -1', CLEAR: '목숨 -3' },
     speed: {
       name: 'Speed Mode',
       points: [
@@ -169,6 +170,7 @@ const en: Messages = {
       'The more waypoints you pass through, the higher your score.',
     ],
     scoreTitle: 'Scoring',
+    lives: { EXCELLENT: 'Keep lives', GOOD: '−1 life', CLEAR: '−3 lives' },
     speed: {
       name: 'Speed Mode',
       points: [
