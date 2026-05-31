@@ -49,6 +49,8 @@ export default function Tutorial({ mode, onDone, viewOnly }: Props) {
         <Section title={t.tutorial.commonTitle} points={t.tutorial.common} color={c.textMuted} text={c.text} />
         <div style={{ height: 14 }} />
         <Section title={modeText.name} points={modeText.points} color={accent} text={c.text} />
+        <div style={{ height: 14 }} />
+        <Section title={t.tutorial.scoreTitle} points={modeText.scores} color={c.textMuted} text={c.text} />
 
         <button
           onClick={onDone}

@@ -66,24 +66,34 @@ const ko = {
     start: '시작하기',
     close: '확인',
     pickMode: '어떤 모드를 볼까요?',
-    commonTitle: '공통 규칙',
+    commonTitle: '기본 규칙',
     common: [
       '파란 "시작"에서 드래그해 상하좌우로 이어 "도착"까지 연결하세요.',
-      '중간 노드를 많이 거칠수록 점수가 제곱으로 늘어요.',
-      '주황 테두리(트리거)를 지나면 인접한 방해물을 통과할 수 있어요.',
+      '거쳐 간 중간 노드가 많을수록 점수가 커져요.',
     ],
+    scoreTitle: '점수 구조',
     speed: {
       name: 'Speed Mode',
       points: [
         '제한 시간 안에 도착까지 연결하면 다음 라운드로 이어져요.',
-        '최장 경로로 클리어하면 보너스 점수를 받아요.',
+        '방해물(빨강)은 벽이에요 — 돌아서 피하세요. 라운드마다 새로 배치돼요.',
+      ],
+      scores: [
+        '기본 점수 = 거쳐 간 중간 노드 수의 제곱',
+        '최장 경로(Excellent)면 1.5배 보너스 + 시간 추가',
+        '1~2칸 부족하면 Good, 너무 짧으면 Clear — 보너스 없음',
       ],
     },
     infinity: {
       name: 'Infinity Mode',
       points: [
-        '목숨은 3개 — 경로가 짧으면 목숨이 줄어요.',
-        '최장 경로(완벽!)면 목숨을 지키며 끝없이 도전할 수 있어요.',
+        '주황 테두리(트리거)를 지나면 인접한 방해물을 통과할 수 있어요.',
+        '목숨은 3개 — 라운드 평가에 따라 줄어들어요.',
+      ],
+      scores: [
+        '기본 점수 = 거쳐 간 중간 노드 수의 제곱',
+        '최장 경로면 완벽! — 목숨 유지(±0)',
+        '1~2칸 부족하면 목숨 -1, 너무 짧으면 -3',
       ],
     },
   },
@@ -153,24 +163,34 @@ const en: Messages = {
     start: 'Start',
     close: 'Got it',
     pickMode: 'Which mode?',
-    commonTitle: 'Common rules',
+    commonTitle: 'Basics',
     common: [
       'Drag from the blue "Start" through adjacent nodes to reach the "Goal".',
-      'The more waypoints you pass, the more your score grows (squared).',
-      'Pass an orange-bordered node (trigger) to clear the adjacent obstacle.',
+      'The more waypoints you pass through, the higher your score.',
     ],
+    scoreTitle: 'Scoring',
     speed: {
       name: 'Speed Mode',
       points: [
         'Reach the goal before time runs out to advance to the next round.',
-        'Clear with the longest path for a bonus score.',
+        'Obstacles (red) are walls — route around them. They reshuffle each round.',
+      ],
+      scores: [
+        'Base score = (number of waypoints passed)²',
+        'Longest path (Excellent) → 1.5× bonus + extra time',
+        '1–2 short → Good, much shorter → Clear (no bonus)',
       ],
     },
     infinity: {
       name: 'Infinity Mode',
       points: [
-        '3 lives — a short path costs you a life.',
-        'Take the longest path (Perfect!) to keep your lives and play forever.',
+        'Pass an orange-bordered node (trigger) to clear the adjacent obstacle.',
+        '3 lives — they drop based on your round rating.',
+      ],
+      scores: [
+        'Base score = (number of waypoints passed)²',
+        'Longest path → Perfect! — keep your lives (±0)',
+        '1–2 short → −1 life, much shorter → −3',
       ],
     },
   },
