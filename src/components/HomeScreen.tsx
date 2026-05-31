@@ -10,6 +10,8 @@ interface Props {
 export default function HomeScreen({ onStart, onOpenSettings }: Props) {
   const t = useT()
   const c = useTheme()
+  const dark = c.mode === 'dark'
+  const logoInk = dark ? '#1677ff' : 'white' // 박스 위 경로/노드 색
   return (
     <div
       style={{
@@ -42,24 +44,25 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
               width: 56,
               height: 56,
               borderRadius: 16,
-              background: '#1677ff',
+              // 다크 모드: 흰 박스 + 파란 경로 (브랜드 다크 로고 logo-master-dark.svg와 동일)
+              background: dark ? '#ffffff' : '#1677ff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 14px rgba(22,119,255,0.32)',
+              boxShadow: dark ? '0 4px 14px rgba(0,0,0,0.45)' : '0 4px 14px rgba(22,119,255,0.32)',
               flexShrink: 0,
             }}
           >
             <svg width="44" height="44" viewBox="0 0 64 64" fill="none">
               <path d="M16 16 L16 32 L32 32 L32 48 L48 48"
-                stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.95"/>
-              <circle cx="16" cy="32" r="3.5" fill="white" opacity="0.85"/>
-              <circle cx="32" cy="32" r="3.5" fill="white" opacity="0.85"/>
-              <circle cx="32" cy="48" r="3.5" fill="white" opacity="0.85"/>
-              <circle cx="48" cy="16" r="2" fill="white" opacity="0.3"/>
-              <circle cx="48" cy="32" r="2" fill="white" opacity="0.3"/>
-              <circle cx="16" cy="48" r="2" fill="white" opacity="0.3"/>
-              <circle cx="16" cy="16" r="5.5" fill="#4096ff" stroke="white" strokeWidth="2.2"/>
+                stroke={logoInk} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.95"/>
+              <circle cx="16" cy="32" r="3.5" fill={logoInk} opacity="0.85"/>
+              <circle cx="32" cy="32" r="3.5" fill={logoInk} opacity="0.85"/>
+              <circle cx="32" cy="48" r="3.5" fill={logoInk} opacity="0.85"/>
+              <circle cx="48" cy="16" r="2" fill={logoInk} opacity="0.3"/>
+              <circle cx="48" cy="32" r="2" fill={logoInk} opacity="0.3"/>
+              <circle cx="16" cy="48" r="2" fill={logoInk} opacity="0.3"/>
+              <circle cx="16" cy="16" r="5.5" fill={dark ? '#1677ff' : '#4096ff'} stroke={dark ? '#ffffff' : 'white'} strokeWidth="2.2"/>
               <circle cx="48" cy="48" r="5.5" fill="#52c41a" stroke="white" strokeWidth="2.2"/>
             </svg>
           </div>
