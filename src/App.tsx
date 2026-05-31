@@ -119,8 +119,9 @@ export default function App() {
         gap: 24,
       }}
     >
-      {/* Top bar: back + settings */}
-      <div style={{ width: '100%', maxWidth: 400, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      {/* Top bar: 홈으로 (좌측 고정 — 토스 닫기 X는 우측이므로 충돌 없음).
+          설정 버튼은 HUD 우측으로 이동해 토스 X 영역과 분리. */}
+      <div style={{ width: '100%', maxWidth: 400, display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
         <button
           onClick={handleHome}
           style={{
@@ -138,23 +139,9 @@ export default function App() {
         >
           ← 홈
         </button>
-        <button
-          onClick={() => setShowSettings(true)}
-          aria-label="설정 열기"
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: '#8c8c8c',
-            fontSize: 20,
-            padding: 4,
-          }}
-        >
-          ⚙
-        </button>
       </div>
 
-      <HUD state={state} />
+      <HUD state={state} onOpenSettings={() => setShowSettings(true)} />
 
       <Grid
         matrix={state.matrix}

@@ -3,24 +3,42 @@ import { getSpeedTimeConfig } from '../utils/scoring'
 
 interface Props {
   state: GameState
+  onOpenSettings: () => void
 }
 
 const INFINITY_MAX_LIVES = 3
 
-export default function HUD({ state }: Props) {
+export default function HUD({ state, onOpenSettings }: Props) {
   const { gameMode, score, bestScore, level, timeRemaining, gridSize, lives } = state
 
   return (
     <div style={{ width: '100%', maxWidth: 400, padding: '0 4px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
-        <div>
-          <div style={{ fontSize: 12, color: '#8c8c8c', fontWeight: 500, letterSpacing: 0.5 }}>SCORE</div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: '#1a1a2e', lineHeight: 1.1 }}>{score.toLocaleString()}</div>
-        </div>
-        <div style={{ textAlign: 'right' }}>
+      {/* BEST(좌) · SCORE(중앙) · 설정(우) — 설정 버튼을 토스 닫기(X) 영역에서 분리 */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'flex-end', marginBottom: 12 }}>
+        <div style={{ justifySelf: 'start' }}>
           <div style={{ fontSize: 12, color: '#8c8c8c', fontWeight: 500, letterSpacing: 0.5 }}>BEST</div>
           <div style={{ fontSize: 18, fontWeight: 700, color: '#595959' }}>{Math.max(score, bestScore).toLocaleString()}</div>
         </div>
+        <div style={{ justifySelf: 'center', textAlign: 'center' }}>
+          <div style={{ fontSize: 12, color: '#8c8c8c', fontWeight: 500, letterSpacing: 0.5 }}>SCORE</div>
+          <div style={{ fontSize: 32, fontWeight: 800, color: '#1a1a2e', lineHeight: 1.1 }}>{score.toLocaleString()}</div>
+        </div>
+        <button
+          onClick={onOpenSettings}
+          aria-label="설정 열기"
+          style={{
+            justifySelf: 'end',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: '#8c8c8c',
+            fontSize: 22,
+            padding: 4,
+            lineHeight: 1,
+          }}
+        >
+          ⚙
+        </button>
       </div>
 
       <div style={{ display: 'flex', gap: 8, marginBottom: 14, alignItems: 'center' }}>

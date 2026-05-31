@@ -29,7 +29,8 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
         style={{
           position: 'absolute',
           top: 'max(20px, env(safe-area-inset-top))',
-          right: 'max(22px, env(safe-area-inset-right))',
+          // 토스 닫기(X)는 우상단 → 설정은 좌상단으로 분리
+          left: 'max(22px, env(safe-area-inset-left))',
           background: 'none',
           border: 'none',
           cursor: 'pointer',
