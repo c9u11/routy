@@ -182,6 +182,11 @@ function reducer(state: GameState, action: Action): GameState {
     }
 
     case 'PATH_CONFIRM': {
+      // 게임오버 분기는 currentPath를 리셋하지 않으므로, 도착 직후 손을 떼면
+      // endDrag가 같은 경로로 PATH_CONFIRM을 한 번 더 호출해 점수가 중복 가산됨.
+      // 이미 게임오버면 무시.
+      if (state.isGameOver) return state
+
       const path = state.currentPath
       if (path.length < 2) {
         const cleared = state.matrix.map(row => row.map(n => ({ ...n, isActive: false })))
