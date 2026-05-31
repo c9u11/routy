@@ -27,24 +27,6 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
         position: 'relative',
       }}
     >
-      <button
-        onClick={onOpenSettings}
-        aria-label={t.home.settingsAria}
-        style={{
-          position: 'absolute',
-          top: 'max(20px, env(safe-area-inset-top))',
-          // 토스 닫기(X)는 우상단 → 설정은 좌상단으로 분리
-          left: 'max(22px, env(safe-area-inset-left))',
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          color: c.textMuted,
-          fontSize: 22,
-          padding: 4,
-        }}
-      >
-        ⚙
-      </button>
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
         <div
           style={{
@@ -110,6 +92,27 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
           color="#722ed1"
           onClick={() => onStart('INFINITY')}
         />
+
+        <button
+          onClick={onOpenSettings}
+          aria-label={t.home.settingsAria}
+          style={{
+            marginTop: 4,
+            alignSelf: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: c.textMuted,
+            fontSize: 15,
+            fontWeight: 600,
+            padding: '8px 12px',
+          }}
+        >
+          ⚙ {t.settings.title}
+        </button>
       </div>
     </div>
   )

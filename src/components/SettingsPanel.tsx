@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useSettings, setSetting } from '../hooks/useSettings'
 import type { GameMode } from '../types/game'
 import { useT } from '../i18n/strings'
@@ -15,7 +14,6 @@ export default function SettingsPanel({ onClose, onShowTutorial }: Props) {
   const settings = useSettings()
   const t = useT()
   const c = useTheme()
-  const [pickingMode, setPickingMode] = useState(false)
 
   const items: { key: ToggleKey; label: string; desc: string }[] = [
     { key: 'haptic', label: t.settings.haptic.label, desc: t.settings.haptic.desc },
@@ -94,53 +92,32 @@ export default function SettingsPanel({ onClose, onShowTutorial }: Props) {
             onChange={(v) => setSetting('theme', v)}
           />
 
-          {/* 게임 방법 다시 보기 — 모드 선택 후 튜토리얼 노출 */}
-          {!pickingMode ? (
-            <button
-              onClick={() => setPickingMode(true)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                padding: '12px 4px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-              }}
-            >
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 15, fontWeight: 700, color: c.text }}>{t.settings.howToPlay.label}</div>
-                <div style={{ fontSize: 12, color: c.textMuted, marginTop: 2 }}>{t.settings.howToPlay.desc}</div>
-              </div>
-              <span style={{ color: c.textMuted, fontSize: 18 }}>›</span>
-            </button>
-          ) : (
-            <div style={{ padding: '12px 4px' }}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: c.textMuted, marginBottom: 8 }}>{t.tutorial.pickMode}</div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {(['SPEED', 'INFINITY'] as GameMode[]).map(mode => (
-                  <button
-                    key={mode}
-                    onClick={() => onShowTutorial(mode)}
-                    style={{
-                      flex: 1,
-                      padding: '12px',
-                      borderRadius: 12,
-                      border: `2px solid ${mode === 'SPEED' ? '#1677ff' : '#722ed1'}30`,
-                      background: `${mode === 'SPEED' ? '#1677ff' : '#722ed1'}10`,
-                      color: c.text,
-                      fontSize: 14,
-                      fontWeight: 800,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {mode === 'SPEED' ? `⚡ ${t.tutorial.speed.name}` : `∞ ${t.tutorial.infinity.name}`}
-                  </button>
-                ))}
-              </div>
+          {/* 게임 방법 — 모드별 버튼을 바로 노출 */}
+          <div style={{ padding: '12px 4px' }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: c.text }}>{t.settings.howToPlay.label}</div>
+            <div style={{ fontSize: 12, color: c.textMuted, marginTop: 2, marginBottom: 10 }}>{t.settings.howToPlay.desc}</div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              {(['SPEED', 'INFINITY'] as GameMode[]).map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => onShowTutorial(mode)}
+                  style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: 12,
+                    border: `2px solid ${mode === 'SPEED' ? '#1677ff' : '#722ed1'}30`,
+                    background: `${mode === 'SPEED' ? '#1677ff' : '#722ed1'}10`,
+                    color: c.text,
+                    fontSize: 14,
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {mode === 'SPEED' ? `⚡ ${t.tutorial.speed.name}` : `∞ ${t.tutorial.infinity.name}`}
+                </button>
+              ))}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
