@@ -3,6 +3,7 @@ import { graniteEvent, closeView } from '@apps-in-toss/web-framework'
 import type { GameMode, Screen } from './types/game'
 import { useGameState } from './hooks/useGameState'
 import { reloadSettings, useSettings } from './hooks/useSettings'
+import { useTheme, applyDocumentChrome } from './theme/theme'
 import { registerShakeRoot } from './utils/feedback'
 import { getString, setString, hydrate } from './utils/storage'
 import { fetchAnonymousKey } from './utils/anonymousKey'
@@ -26,11 +27,23 @@ export default function App() {
 
   const { state, startGame, restart, addNodeToPath, confirmPath, cancelPath } = useGameState()
   const { lang } = useSettings()
+  const theme = useTheme()
 
   // 언어 변경 시 <html lang> 동기화 (접근성/스크린리더)
   useEffect(() => {
     document.documentElement.lang = lang
   }, [lang])
+
+  // 테마 변경 시 바디 배경/theme-color + 네이티브 StatusBar 갱신
+  useEffect(() => {
+    applyDocumentChrome(theme)
+    import('@capacitor/status-bar')
+      .then(({ StatusBar, Style }) => {
+        StatusBar.setStyle({ style: theme.mode === 'dark' ? Style.Dark : Style.Light }).catch(() => {})
+        StatusBar.setBackgroundColor({ color: theme.bg }).catch(() => {})
+      })
+      .catch(() => {/* 웹/토스: 무동작 */})
+  }, [theme])
 
   // 토스 인앱 X 버튼 인터셉트 — 가이드상 종료 확인 모달 노출 필수.
   // graniteEvent.backEvent는 토스 환경에서만 fire되며, 리스너 등록 시 기본 닫기는 차단됨.
@@ -116,7 +129,7 @@ export default function App() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        background: '#fafbff',
+        background: theme.bg,
         // Safe area 적용: 노치/Dynamic Island/홈 인디케이터 가려짐 방지
         paddingTop: 'max(20px, env(safe-area-inset-top))',
         paddingBottom: 'max(40px, env(safe-area-inset-bottom))',

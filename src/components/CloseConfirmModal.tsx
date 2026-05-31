@@ -1,4 +1,5 @@
 import { useT } from '../i18n/strings'
+import { useTheme } from '../theme/theme'
 
 interface Props {
   onCancel: () => void
@@ -7,6 +8,7 @@ interface Props {
 
 export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
   const t = useT()
+  const c = useTheme()
   return (
     <div
       onClick={onCancel}
@@ -15,7 +17,7 @@ export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.5)',
+        background: c.overlay,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -26,7 +28,7 @@ export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: 'white',
+          background: c.surface,
           borderRadius: 20,
           width: '100%',
           maxWidth: 320,
@@ -34,7 +36,7 @@ export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
           textAlign: 'center',
         }}
       >
-        <div style={{ fontSize: 17, fontWeight: 800, color: '#1a1a2e', marginBottom: 22 }}>
+        <div style={{ fontSize: 17, fontWeight: 800, color: c.text, marginBottom: 22 }}>
           {t.close.title}
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -45,8 +47,8 @@ export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
               padding: '14px',
               borderRadius: 12,
               border: 'none',
-              background: '#f0f0f0',
-              color: '#1a1a2e',
+              background: c.surfaceAlt,
+              color: c.text,
               fontSize: 15,
               fontWeight: 700,
               cursor: 'pointer',

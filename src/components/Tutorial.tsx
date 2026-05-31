@@ -1,4 +1,5 @@
 import { useT } from '../i18n/strings'
+import { useTheme } from '../theme/theme'
 
 interface Props {
   onDone: () => void
@@ -6,13 +7,14 @@ interface Props {
 
 export default function Tutorial({ onDone }: Props) {
   const t = useT()
+  const c = useTheme()
   const STEPS = t.tutorial.steps
   return (
     <div
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.6)',
+        background: c.overlayStrong,
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -22,14 +24,14 @@ export default function Tutorial({ onDone }: Props) {
     >
       <div
         style={{
-          background: 'white',
+          background: c.surface,
           borderRadius: 28,
           padding: '32px 24px 28px',
           width: '100%',
           maxWidth: 400,
         }}
       >
-        <div style={{ fontSize: 20, fontWeight: 800, color: '#1a1a2e', marginBottom: 24 }}>
+        <div style={{ fontSize: 20, fontWeight: 800, color: c.text, marginBottom: 24 }}>
           {t.tutorial.title}
         </div>
 
@@ -41,7 +43,7 @@ export default function Tutorial({ onDone }: Props) {
                   width: 40,
                   height: 40,
                   borderRadius: 12,
-                  background: '#f5f8ff',
+                  background: c.surfaceAlt,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -52,10 +54,10 @@ export default function Tutorial({ onDone }: Props) {
                 {step.icon}
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', marginBottom: 2 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: c.text, marginBottom: 2 }}>
                   {step.title}
                 </div>
-                <div style={{ fontSize: 13, color: '#8c8c8c', lineHeight: 1.5 }}>{step.desc}</div>
+                <div style={{ fontSize: 13, color: c.textMuted, lineHeight: 1.5 }}>{step.desc}</div>
               </div>
             </div>
           ))}

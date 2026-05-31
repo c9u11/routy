@@ -1,5 +1,6 @@
 import type { NodeData } from '../types/game'
 import { useT } from '../i18n/strings'
+import { useTheme } from '../theme/theme'
 
 interface Props {
   node: NodeData
@@ -15,6 +16,7 @@ const DIRECTION_ARROW: Record<string, string> = {
 
 export default function Node({ node, size }: Props) {
   const t = useT()
+  const c = useTheme()
   const base: React.CSSProperties = {
     width: size,
     height: size,
@@ -114,7 +116,7 @@ export default function Node({ node, size }: Props) {
           ? '#1677ff'
           : isTrigger
           ? 'rgba(255, 165, 0, 0.18)'
-          : '#f0f5ff',
+          : c.nodeDefault,
         border: isTrigger ? '2px dashed #fa8c16' : '2px solid transparent',
         boxShadow: node.isActive ? '0 0 0 4px rgba(22,119,255,0.45)' : 'none',
       }}

@@ -1,5 +1,6 @@
 import type { GameMode } from '../types/game'
 import { useT } from '../i18n/strings'
+import { useTheme } from '../theme/theme'
 
 interface Props {
   onStart: (mode: GameMode) => void
@@ -8,6 +9,7 @@ interface Props {
 
 export default function HomeScreen({ onStart, onOpenSettings }: Props) {
   const t = useT()
+  const c = useTheme()
   return (
     <div
       style={{
@@ -21,7 +23,7 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
         paddingBottom: 'max(32px, env(safe-area-inset-bottom))',
         paddingLeft: 'max(24px, env(safe-area-inset-left))',
         paddingRight: 'max(24px, env(safe-area-inset-right))',
-        background: 'white',
+        background: c.bg,
         position: 'relative',
       }}
     >
@@ -36,7 +38,7 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
           background: 'none',
           border: 'none',
           cursor: 'pointer',
-          color: '#8c8c8c',
+          color: c.textMuted,
           fontSize: 22,
           padding: 4,
         }}
@@ -80,15 +82,15 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
             </svg>
           </div>
           <div style={{ textAlign: 'left' }}>
-            <h1 style={{ fontSize: 26, fontWeight: 900, color: '#1a1a2e', margin: 0, lineHeight: 1.1 }}>
+            <h1 style={{ fontSize: 26, fontWeight: 900, color: c.text, margin: 0, lineHeight: 1.1 }}>
               {t.home.title}
             </h1>
-            <p style={{ fontSize: 12, color: '#bfbfbf', margin: '4px 0 0', fontWeight: 700, letterSpacing: 1.2 }}>
+            <p style={{ fontSize: 12, color: c.textFaint, margin: '4px 0 0', fontWeight: 700, letterSpacing: 1.2 }}>
               ROUTY
             </p>
           </div>
         </div>
-        <p style={{ fontSize: 15, color: '#8c8c8c', margin: 0, fontWeight: 500 }}>
+        <p style={{ fontSize: 15, color: c.textMuted, margin: 0, fontWeight: 500 }}>
           {t.home.subtitle}
         </p>
       </div>
@@ -126,6 +128,7 @@ function ModeCard({
   color: string
   onClick: () => void
 }) {
+  const c = useTheme()
   return (
     <button
       onClick={onClick}
@@ -162,8 +165,8 @@ function ModeCard({
         {icon}
       </div>
       <div>
-        <div style={{ fontSize: 17, fontWeight: 800, color: '#1a1a2e', marginBottom: 3 }}>{title}</div>
-        <div style={{ fontSize: 13, color: '#8c8c8c', fontWeight: 500 }}>{desc}</div>
+        <div style={{ fontSize: 17, fontWeight: 800, color: c.text, marginBottom: 3 }}>{title}</div>
+        <div style={{ fontSize: 13, color: c.textMuted, fontWeight: 500 }}>{desc}</div>
       </div>
     </button>
   )

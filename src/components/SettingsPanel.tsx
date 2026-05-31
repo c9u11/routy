@@ -1,5 +1,6 @@
 import { useSettings, setSetting } from '../hooks/useSettings'
 import { useT } from '../i18n/strings'
+import { useTheme } from '../theme/theme'
 
 interface Props {
   onClose: () => void
@@ -10,6 +11,7 @@ type ToggleKey = 'haptic' | 'shake' | 'sound'
 export default function SettingsPanel({ onClose }: Props) {
   const settings = useSettings()
   const t = useT()
+  const c = useTheme()
 
   const items: { key: ToggleKey; label: string; desc: string }[] = [
     { key: 'haptic', label: t.settings.haptic.label, desc: t.settings.haptic.desc },
@@ -23,7 +25,7 @@ export default function SettingsPanel({ onClose }: Props) {
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.45)',
+        background: c.overlay,
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -34,7 +36,7 @@ export default function SettingsPanel({ onClose }: Props) {
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: 'white',
+          background: c.surface,
           borderRadius: 24,
           padding: '24px 22px 20px',
           width: '100%',
@@ -42,7 +44,7 @@ export default function SettingsPanel({ onClose }: Props) {
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#1a1a2e' }}>{t.settings.title}</div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: c.text }}>{t.settings.title}</div>
           <button
             onClick={onClose}
             style={{
@@ -50,7 +52,7 @@ export default function SettingsPanel({ onClose }: Props) {
               border: 'none',
               cursor: 'pointer',
               fontSize: 20,
-              color: '#8c8c8c',
+              color: c.textMuted,
               padding: 4,
             }}
             aria-label={t.settings.closeAria}
@@ -95,13 +97,14 @@ function Segmented<T extends string>({
   options: { value: T; label: string }[]
   onChange: (v: T) => void
 }) {
+  const c = useTheme()
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 4px' }}>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e' }}>{label}</div>
-        <div style={{ fontSize: 12, color: '#8c8c8c', marginTop: 2 }}>{desc}</div>
+        <div style={{ fontSize: 15, fontWeight: 700, color: c.text }}>{label}</div>
+        <div style={{ fontSize: 12, color: c.textMuted, marginTop: 2 }}>{desc}</div>
       </div>
-      <div style={{ display: 'flex', background: '#f0f0f0', borderRadius: 10, padding: 2, flexShrink: 0 }}>
+      <div style={{ display: 'flex', background: c.surfaceAlt, borderRadius: 10, padding: 2, flexShrink: 0 }}>
         {options.map(opt => {
           const active = opt.value === value
           return (
@@ -115,8 +118,8 @@ function Segmented<T extends string>({
                 padding: '6px 12px',
                 fontSize: 13,
                 fontWeight: 700,
-                background: active ? 'white' : 'transparent',
-                color: active ? '#1677ff' : '#8c8c8c',
+                background: active ? c.surface : 'transparent',
+                color: active ? '#1677ff' : c.textMuted,
                 boxShadow: active ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
                 transition: 'background 0.15s, color 0.15s',
               }}
@@ -141,6 +144,7 @@ function Toggle({
   checked: boolean
   onChange: (v: boolean) => void
 }) {
+  const c = useTheme()
   return (
     <button
       onClick={() => onChange(!checked)}
@@ -156,15 +160,15 @@ function Toggle({
       }}
     >
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e' }}>{label}</div>
-        <div style={{ fontSize: 12, color: '#8c8c8c', marginTop: 2 }}>{desc}</div>
+        <div style={{ fontSize: 15, fontWeight: 700, color: c.text }}>{label}</div>
+        <div style={{ fontSize: 12, color: c.textMuted, marginTop: 2 }}>{desc}</div>
       </div>
       <div
         style={{
           width: 44,
           height: 26,
           borderRadius: 99,
-          background: checked ? '#1677ff' : '#d9d9d9',
+          background: checked ? '#1677ff' : c.toggleOff,
           position: 'relative',
           transition: 'background 0.18s',
           flexShrink: 0,

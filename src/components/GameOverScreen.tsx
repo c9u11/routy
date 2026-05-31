@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { GameMode } from '../types/game'
 import { useT } from '../i18n/strings'
+import { useTheme } from '../theme/theme'
 
 interface Props {
   score: number
@@ -12,6 +13,7 @@ interface Props {
 
 export default function GameOverScreen({ score, bestScore, gameMode, onRestart, onHome }: Props) {
   const t = useT()
+  const c = useTheme()
   const [visible, setVisible] = useState(false)
   const isNewBest = score >= bestScore && score > 0
 
@@ -25,7 +27,7 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(255,255,255,0.92)',
+        background: c.gameOverScrim,
         backdropFilter: 'blur(8px)',
         display: 'flex',
         flexDirection: 'column',
@@ -39,7 +41,7 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
     >
       <div
         style={{
-          background: 'white',
+          background: c.surface,
           borderRadius: 28,
           padding: '40px 32px',
           width: '100%',
@@ -53,7 +55,7 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
         <div style={{ fontSize: 48, marginBottom: 8 }}>
           {isNewBest ? '🏆' : '🎮'}
         </div>
-        <div style={{ fontSize: 22, fontWeight: 800, color: '#1a1a2e', marginBottom: 4 }}>
+        <div style={{ fontSize: 22, fontWeight: 800, color: c.text, marginBottom: 4 }}>
           {gameMode === 'SPEED' ? t.gameOver.speedTitle : t.gameOver.infinityTitle}
         </div>
         {isNewBest && (
@@ -64,17 +66,17 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
 
         <div
           style={{
-            background: '#f5f8ff',
+            background: c.surfaceAlt,
             borderRadius: 16,
             padding: '20px 24px',
             margin: '20px 0',
           }}
         >
-          <div style={{ fontSize: 12, color: '#8c8c8c', fontWeight: 600, letterSpacing: 0.5 }}>SCORE</div>
+          <div style={{ fontSize: 12, color: c.textMuted, fontWeight: 600, letterSpacing: 0.5 }}>SCORE</div>
           <div style={{ fontSize: 48, fontWeight: 900, color: '#1677ff', lineHeight: 1.1 }}>
             {score.toLocaleString()}
           </div>
-          <div style={{ fontSize: 13, color: '#8c8c8c', marginTop: 4 }}>
+          <div style={{ fontSize: 13, color: c.textMuted, marginTop: 4 }}>
             {t.gameOver.best(Math.max(score, bestScore).toLocaleString())}
           </div>
         </div>
@@ -105,9 +107,9 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
               width: '100%',
               padding: '16px',
               borderRadius: 14,
-              border: '2px solid #f0f0f0',
-              background: 'white',
-              color: '#595959',
+              border: `2px solid ${c.border}`,
+              background: c.surface,
+              color: c.textSecondary,
               fontWeight: 700,
               fontSize: 15,
               cursor: 'pointer',
