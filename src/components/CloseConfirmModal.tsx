@@ -1,9 +1,12 @@
+import { useT } from '../i18n/strings'
+
 interface Props {
   onCancel: () => void
   onConfirm: () => void
 }
 
 export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
+  const t = useT()
   return (
     <div
       onClick={onCancel}
@@ -32,7 +35,7 @@ export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
         }}
       >
         <div style={{ fontSize: 17, fontWeight: 800, color: '#1a1a2e', marginBottom: 22 }}>
-          길찾기 퍼즐을 종료할까요?
+          {t.close.title}
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button
@@ -49,7 +52,7 @@ export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
               cursor: 'pointer',
             }}
           >
-            닫기
+            {t.close.cancel}
           </button>
           <button
             onClick={onConfirm}
@@ -65,7 +68,7 @@ export default function CloseConfirmModal({ onCancel, onConfirm }: Props) {
               cursor: 'pointer',
             }}
           >
-            종료하기
+            {t.close.confirm}
           </button>
         </div>
       </div>

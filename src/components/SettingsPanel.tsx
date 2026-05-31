@@ -1,17 +1,21 @@
-import { useSettings, setSetting, type Settings } from '../hooks/useSettings'
+import { useSettings, setSetting } from '../hooks/useSettings'
+import { useT } from '../i18n/strings'
 
 interface Props {
   onClose: () => void
 }
 
-const ITEMS: { key: keyof Settings; label: string; desc: string }[] = [
-  { key: 'haptic', label: '진동', desc: '터치/도착/게임오버 햅틱 피드백' },
-  { key: 'shake', label: '화면 흔들림', desc: '도착·게임오버 시 화면 흔들기' },
-  { key: 'sound', label: '사운드', desc: '연결·도착·게임오버 효과음' },
-]
+type ToggleKey = 'haptic' | 'shake' | 'sound'
 
 export default function SettingsPanel({ onClose }: Props) {
   const settings = useSettings()
+  const t = useT()
+
+  const items: { key: ToggleKey; label: string; desc: string }[] = [
+    { key: 'haptic', label: t.settings.haptic.label, desc: t.settings.haptic.desc },
+    { key: 'shake', label: t.settings.shake.label, desc: t.settings.shake.desc },
+    { key: 'sound', label: t.settings.sound.label, desc: t.settings.sound.desc },
+  ]
 
   return (
     <div
@@ -38,7 +42,7 @@ export default function SettingsPanel({ onClose }: Props) {
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#1a1a2e' }}>설정</div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: '#1a1a2e' }}>{t.settings.title}</div>
           <button
             onClick={onClose}
             style={{
@@ -49,14 +53,14 @@ export default function SettingsPanel({ onClose }: Props) {
               color: '#8c8c8c',
               padding: 4,
             }}
-            aria-label="설정 닫기"
+            aria-label={t.settings.closeAria}
           >
             ✕
           </button>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {ITEMS.map(item => (
+          {items.map(item => (
             <Toggle
               key={item.key}
               label={item.label}
@@ -65,7 +69,62 @@ export default function SettingsPanel({ onClose }: Props) {
               onChange={(v) => setSetting(item.key, v)}
             />
           ))}
+          <Segmented
+            label={t.settings.language.label}
+            desc={t.settings.language.desc}
+            value={settings.lang}
+            options={[{ value: 'ko', label: '한국어' }, { value: 'en', label: 'English' }]}
+            onChange={(v) => setSetting('lang', v)}
+          />
         </div>
+      </div>
+    </div>
+  )
+}
+
+function Segmented<T extends string>({
+  label,
+  desc,
+  value,
+  options,
+  onChange,
+}: {
+  label: string
+  desc: string
+  value: T
+  options: { value: T; label: string }[]
+  onChange: (v: T) => void
+}) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 4px' }}>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1a2e' }}>{label}</div>
+        <div style={{ fontSize: 12, color: '#8c8c8c', marginTop: 2 }}>{desc}</div>
+      </div>
+      <div style={{ display: 'flex', background: '#f0f0f0', borderRadius: 10, padding: 2, flexShrink: 0 }}>
+        {options.map(opt => {
+          const active = opt.value === value
+          return (
+            <button
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              style={{
+                border: 'none',
+                cursor: 'pointer',
+                borderRadius: 8,
+                padding: '6px 12px',
+                fontSize: 13,
+                fontWeight: 700,
+                background: active ? 'white' : 'transparent',
+                color: active ? '#1677ff' : '#8c8c8c',
+                boxShadow: active ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
+                transition: 'background 0.15s, color 0.15s',
+              }}
+            >
+              {opt.label}
+            </button>
+          )
+        })}
       </div>
     </div>
   )

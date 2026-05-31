@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react'
 import type { RoundRatingInfo } from '../types/game'
+import { useT } from '../i18n/strings'
 
 type Mode = 'SPEED' | 'INFINITY'
 
-const TIER_STYLE: Record<Mode, Record<RoundRatingInfo['tier'], { label: string; color: string; sub?: string }>> = {
-  SPEED: {
-    EXCELLENT: { label: 'Excellent!', color: '#fa8c16', sub: '최장 경로 보너스' },
-    GOOD: { label: 'Good', color: '#1677ff' },
-    CLEAR: { label: 'Clear', color: '#8c8c8c' },
-  },
-  INFINITY: {
-    EXCELLENT: { label: '완벽!', color: '#fa8c16', sub: '최장 경로 + 트리거 모두 통과' },
-    GOOD: { label: '아쉬워요', color: '#1677ff', sub: '조금 더 길게 돌아가세요' },
-    CLEAR: { label: '위험!', color: '#cf1322', sub: '너무 짧은 경로' },
-  },
+const TIER_COLOR: Record<Mode, Record<RoundRatingInfo['tier'], string>> = {
+  SPEED: { EXCELLENT: '#fa8c16', GOOD: '#1677ff', CLEAR: '#8c8c8c' },
+  INFINITY: { EXCELLENT: '#fa8c16', GOOD: '#1677ff', CLEAR: '#cf1322' },
 }
 
 interface Props {
@@ -22,19 +15,22 @@ interface Props {
 }
 
 export default function RoundRatingToast({ info, lifeDelta }: Props) {
+  const t = useT()
   const mode: Mode = lifeDelta !== undefined ? 'INFINITY' : 'SPEED'
   const [visibleKey, setVisibleKey] = useState<number | null>(null)
 
   useEffect(() => {
     if (!info) return
     setVisibleKey(info.key)
-    const t = setTimeout(() => setVisibleKey(null), 1200)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setVisibleKey(null), 1200)
+    return () => clearTimeout(timer)
   }, [info?.key, info])
 
   if (!info || visibleKey !== info.key) return null
 
-  const style = TIER_STYLE[mode][info.tier]
+  const color = TIER_COLOR[mode][info.tier]
+  const text = (mode === 'INFINITY' ? t.toast.infinity : t.toast.speed)[info.tier]
+  const style = { label: text.label, color, sub: text.sub }
   const showBonus = info.tier === 'EXCELLENT' && info.bonus > 0
   const showLife = lifeDelta !== undefined && lifeDelta < 0
 
@@ -89,7 +85,7 @@ export default function RoundRatingToast({ info, lifeDelta }: Props) {
             fontWeight: 800,
           }}
         >
-          +{info.bonus.toLocaleString()} 보너스
+          {t.toast.bonus(info.bonus.toLocaleString())}
         </div>
       )}
       {showLife && (
@@ -105,7 +101,7 @@ export default function RoundRatingToast({ info, lifeDelta }: Props) {
             fontWeight: 800,
           }}
         >
-          {lifeDelta === -3 ? '💀 즉사' : `💔 목숨 ${lifeDelta}`}
+          {lifeDelta === -3 ? t.toast.instantKo : t.toast.lifeLost(lifeDelta)}
         </div>
       )}
     </div>

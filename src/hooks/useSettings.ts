@@ -1,13 +1,25 @@
 import { useSyncExternalStore } from 'react'
 import { getString, setString } from '../utils/storage'
 
+export type Lang = 'ko' | 'en'
+
 export interface Settings {
   haptic: boolean
   shake: boolean
   sound: boolean
+  lang: Lang
 }
 
-const DEFAULT_SETTINGS: Settings = { haptic: true, shake: true, sound: true }
+// 기기 언어 기준 초기값: 한국어면 ko, 그 외 en.
+function detectLang(): Lang {
+  try {
+    return (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en'
+  } catch {
+    return 'ko'
+  }
+}
+
+const DEFAULT_SETTINGS: Settings = { haptic: true, shake: true, sound: true, lang: detectLang() }
 const STORAGE_KEY = 'routy_settings_v1'
 
 function load(): Settings {

@@ -1,4 +1,5 @@
 import type { GameMode } from '../types/game'
+import { useT } from '../i18n/strings'
 
 interface Props {
   onStart: (mode: GameMode) => void
@@ -6,6 +7,7 @@ interface Props {
 }
 
 export default function HomeScreen({ onStart, onOpenSettings }: Props) {
+  const t = useT()
   return (
     <div
       style={{
@@ -25,7 +27,7 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
     >
       <button
         onClick={onOpenSettings}
-        aria-label="설정 열기"
+        aria-label={t.home.settingsAria}
         style={{
           position: 'absolute',
           top: 'max(20px, env(safe-area-inset-top))',
@@ -79,7 +81,7 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
           </div>
           <div style={{ textAlign: 'left' }}>
             <h1 style={{ fontSize: 26, fontWeight: 900, color: '#1a1a2e', margin: 0, lineHeight: 1.1 }}>
-              길찾기 퍼즐
+              {t.home.title}
             </h1>
             <p style={{ fontSize: 12, color: '#bfbfbf', margin: '4px 0 0', fontWeight: 700, letterSpacing: 1.2 }}>
               ROUTY
@@ -87,21 +89,21 @@ export default function HomeScreen({ onStart, onOpenSettings }: Props) {
           </div>
         </div>
         <p style={{ fontSize: 15, color: '#8c8c8c', margin: 0, fontWeight: 500 }}>
-          시작에서 도착까지 경로를 연결하세요
+          {t.home.subtitle}
         </p>
       </div>
 
       <div style={{ width: '100%', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 14 }}>
         <ModeCard
-          title="Speed Mode"
-          desc="제한 시간 안에 최대한 많은 경로를 연결"
+          title={t.home.speedTitle}
+          desc={t.home.speedDesc}
           icon="⚡"
           color="#1677ff"
           onClick={() => onStart('SPEED')}
         />
         <ModeCard
-          title="Infinity Mode"
-          desc="목숨 3개로 최장 경로를 찾아 무한 점수 도전"
+          title={t.home.infinityTitle}
+          desc={t.home.infinityDesc}
           icon="∞"
           color="#722ed1"
           onClick={() => onStart('INFINITY')}

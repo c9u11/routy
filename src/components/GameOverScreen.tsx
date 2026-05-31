@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { GameMode } from '../types/game'
+import { useT } from '../i18n/strings'
 
 interface Props {
   score: number
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function GameOverScreen({ score, bestScore, gameMode, onRestart, onHome }: Props) {
+  const t = useT()
   const [visible, setVisible] = useState(false)
   const isNewBest = score >= bestScore && score > 0
 
@@ -52,11 +54,11 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
           {isNewBest ? '🏆' : '🎮'}
         </div>
         <div style={{ fontSize: 22, fontWeight: 800, color: '#1a1a2e', marginBottom: 4 }}>
-          {gameMode === 'SPEED' ? 'Time\'s Up!' : 'Gridlocked!'}
+          {gameMode === 'SPEED' ? t.gameOver.speedTitle : t.gameOver.infinityTitle}
         </div>
         {isNewBest && (
           <div style={{ fontSize: 13, fontWeight: 700, color: '#1677ff', marginBottom: 16 }}>
-            🎉 New Best Score!
+            {t.gameOver.newBest}
           </div>
         )}
 
@@ -73,7 +75,7 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
             {score.toLocaleString()}
           </div>
           <div style={{ fontSize: 13, color: '#8c8c8c', marginTop: 4 }}>
-            Best: {Math.max(score, bestScore).toLocaleString()}
+            {t.gameOver.best(Math.max(score, bestScore).toLocaleString())}
           </div>
         </div>
 
@@ -95,7 +97,7 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
             onMouseDown={e => (e.currentTarget.style.opacity = '0.8')}
             onMouseUp={e => (e.currentTarget.style.opacity = '1')}
           >
-            다시 시작
+            {t.gameOver.retry}
           </button>
           <button
             onClick={onHome}
@@ -111,7 +113,7 @@ export default function GameOverScreen({ score, bestScore, gameMode, onRestart, 
               cursor: 'pointer',
             }}
           >
-            홈으로
+            {t.gameOver.home}
           </button>
         </div>
       </div>

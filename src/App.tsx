@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { graniteEvent, closeView } from '@apps-in-toss/web-framework'
 import type { GameMode, Screen } from './types/game'
 import { useGameState } from './hooks/useGameState'
-import { reloadSettings } from './hooks/useSettings'
+import { reloadSettings, useSettings } from './hooks/useSettings'
 import { registerShakeRoot } from './utils/feedback'
 import { getString, setString, hydrate } from './utils/storage'
 import { fetchAnonymousKey } from './utils/anonymousKey'
@@ -25,6 +25,12 @@ export default function App() {
   const [pendingMode, setPendingMode] = useState<GameMode | null>(null)
 
   const { state, startGame, restart, addNodeToPath, confirmPath, cancelPath } = useGameState()
+  const { lang } = useSettings()
+
+  // 언어 변경 시 <html lang> 동기화 (접근성/스크린리더)
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
 
   // 토스 인앱 X 버튼 인터셉트 — 가이드상 종료 확인 모달 노출 필수.
   // graniteEvent.backEvent는 토스 환경에서만 fire되며, 리스너 등록 시 기본 닫기는 차단됨.

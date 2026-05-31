@@ -1,36 +1,12 @@
+import { useT } from '../i18n/strings'
+
 interface Props {
   onDone: () => void
 }
 
-const STEPS = [
-  {
-    icon: '👆',
-    title: '시작 노드에서 출발',
-    desc: '파란 "시작" 노드에서 드래그를 시작하세요.',
-  },
-  {
-    icon: '🔗',
-    title: '경로 연결',
-    desc: '상하좌우 인접 노드를 따라 드래그해 "도착" 노드까지 연결하세요.',
-  },
-  {
-    icon: '🎯',
-    title: '멀리 돌아가면 고득점',
-    desc: '중간 노드를 많이 거칠수록 점수가 폭발적으로 증가합니다.',
-  },
-  {
-    icon: '🔶',
-    title: '주황 테두리 노드',
-    desc: '통과하면 인접한 방해물을 제거합니다. 적극 활용하세요!',
-  },
-  {
-    icon: '🎮',
-    title: '모드 선택',
-    desc: 'Speed는 시간 제한 / Infinity는 목숨 3개로 최장 경로 도전.',
-  },
-]
-
 export default function Tutorial({ onDone }: Props) {
+  const t = useT()
+  const STEPS = t.tutorial.steps
   return (
     <div
       style={{
@@ -54,7 +30,7 @@ export default function Tutorial({ onDone }: Props) {
         }}
       >
         <div style={{ fontSize: 20, fontWeight: 800, color: '#1a1a2e', marginBottom: 24 }}>
-          게임 방법
+          {t.tutorial.title}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 28 }}>
@@ -99,7 +75,7 @@ export default function Tutorial({ onDone }: Props) {
             cursor: 'pointer',
           }}
         >
-          시작하기
+          {t.tutorial.start}
         </button>
       </div>
     </div>

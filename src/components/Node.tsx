@@ -1,4 +1,5 @@
 import type { NodeData } from '../types/game'
+import { useT } from '../i18n/strings'
 
 interface Props {
   node: NodeData
@@ -13,6 +14,7 @@ const DIRECTION_ARROW: Record<string, string> = {
 }
 
 export default function Node({ node, size }: Props) {
+  const t = useT()
   const base: React.CSSProperties = {
     width: size,
     height: size,
@@ -80,7 +82,7 @@ export default function Node({ node, size }: Props) {
             : '0 0 0 3px rgba(22,119,255,0.35)',
         }}
       >
-        <span style={{ color: 'white', fontSize: size * 0.22, fontWeight: 800 }}>시작</span>
+        <span style={{ color: 'white', fontSize: size * 0.22, fontWeight: 800 }}>{t.node.start}</span>
       </div>
     )
   }
@@ -97,7 +99,7 @@ export default function Node({ node, size }: Props) {
           animation: node.isActive ? 'none' : 'pulse 1.6s ease-in-out infinite',
         }}
       >
-        <span style={{ color: 'white', fontSize: size * 0.22, fontWeight: 800 }}>도착</span>
+        <span style={{ color: 'white', fontSize: size * 0.22, fontWeight: 800 }}>{t.node.goal}</span>
       </div>
     )
   }
