@@ -22,8 +22,8 @@ const ko = {
     goal: '도착',
   },
   gameOver: {
-    speedTitle: "Time's Up!",
-    infinityTitle: 'Gridlocked!',
+    speedTitle: '시간 종료!',
+    infinityTitle: '게임 오버!',
     newBest: '🎉 최고 점수 갱신!',
     best: (n: string) => `최고: ${n}`,
     retry: '다시 시작',
@@ -31,9 +31,9 @@ const ko = {
   },
   toast: {
     speed: {
-      EXCELLENT: { label: 'Excellent!', sub: '최장 경로 보너스' },
-      GOOD: { label: 'Good', sub: '' },
-      CLEAR: { label: 'Clear', sub: '' },
+      EXCELLENT: { label: '훌륭해요!', sub: '최장 경로 보너스' },
+      GOOD: { label: '좋아요', sub: '' },
+      CLEAR: { label: '통과', sub: '' },
     },
     infinity: {
       EXCELLENT: { label: '완벽!', sub: '최장 경로 + 트리거 모두 통과' },
@@ -81,8 +81,8 @@ const ko = {
       ],
       scores: [
         '기본 점수 = 거쳐 간 중간 노드 수의 제곱',
-        '최장 경로(Excellent)면 1.5배 보너스 + 시간 추가',
-        '1~2칸 부족하면 Good, 너무 짧으면 Clear — 보너스 없음',
+        '최장 경로(훌륭해요!)면 1.5배 보너스 + 시간 추가',
+        '1~2칸 부족하면 좋아요, 너무 짧으면 통과 — 보너스 없음',
       ],
     },
     infinity: {
