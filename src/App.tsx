@@ -16,14 +16,14 @@ import RoundRatingToast from './components/RoundRatingToast'
 import SettingsPanel from './components/SettingsPanel'
 import CloseConfirmModal from './components/CloseConfirmModal'
 
-const TUTORIAL_KEY = 'nc_tutorial_done'
+const tutorialKey = (mode: GameMode) => `nc_tutorial_${mode}`
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('HOME')
-  const [showTutorial, setShowTutorial] = useState(false)
+  // viewOnly=false: 첫 플레이 게이트(닫으면 게임 시작) / true: 설정에서 다시 보기(닫기만)
+  const [tutorial, setTutorial] = useState<{ mode: GameMode; viewOnly: boolean } | null>(null)
   const [showSettings, setShowSettings] = useState(false)
   const [showCloseConfirm, setShowCloseConfirm] = useState(false)
-  const [pendingMode, setPendingMode] = useState<GameMode | null>(null)
 
   const { state, startGame, restart, addNodeToPath, confirmPath, cancelPath } = useGameState()
   const { lang } = useSettings()
@@ -77,10 +77,9 @@ export default function App() {
   }, [])
 
   const handleStart = useCallback((mode: GameMode) => {
-    const done = getString(TUTORIAL_KEY)
-    if (!done) {
-      setPendingMode(mode)
-      setShowTutorial(true)
+    // 모드별 첫 플레이면 해당 모드 튜토리얼 노출
+    if (!getString(tutorialKey(mode))) {
+      setTutorial({ mode, viewOnly: false })
       return
     }
     startGame(mode)
@@ -88,14 +87,22 @@ export default function App() {
   }, [startGame])
 
   const handleTutorialDone = useCallback(() => {
-    setString(TUTORIAL_KEY, '1')
-    setShowTutorial(false)
-    if (pendingMode) {
-      startGame(pendingMode)
+    if (!tutorial) return
+    setString(tutorialKey(tutorial.mode), '1')
+    const { mode, viewOnly } = tutorial
+    setTutorial(null)
+    // 첫 플레이 게이트였다면 곧바로 게임 시작 (설정 다시 보기면 닫기만)
+    if (!viewOnly) {
+      startGame(mode)
       setScreen('GAME')
-      setPendingMode(null)
     }
-  }, [pendingMode, startGame])
+  }, [tutorial, startGame])
+
+  // 설정 → '게임 방법' → 모드 선택 시: 설정 닫고 해당 모드 튜토리얼을 보기 전용으로 노출
+  const handleShowTutorial = useCallback((mode: GameMode) => {
+    setShowSettings(false)
+    setTutorial({ mode, viewOnly: true })
+  }, [])
 
   const handleRestart = useCallback(() => {
     restart()
@@ -109,8 +116,8 @@ export default function App() {
     return (
       <>
         <HomeScreen onStart={handleStart} onOpenSettings={() => setShowSettings(true)} />
-        {showTutorial && <Tutorial onDone={handleTutorialDone} />}
-        {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+        {tutorial && <Tutorial mode={tutorial.mode} viewOnly={tutorial.viewOnly} onDone={handleTutorialDone} />}
+        {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} onShowTutorial={handleShowTutorial} />}
         {showCloseConfirm && (
           <CloseConfirmModal
             onCancel={() => setShowCloseConfirm(false)}
@@ -147,7 +154,7 @@ export default function App() {
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            color: '#8c8c8c',
+            color: theme.textMuted,
             fontSize: 15,
             fontWeight: 600,
             padding: '4px 0',
@@ -189,7 +196,8 @@ export default function App() {
         />
       )}
 
-      {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+      {tutorial && <Tutorial mode={tutorial.mode} viewOnly={tutorial.viewOnly} onDone={handleTutorialDone} />}
+      {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} onShowTutorial={handleShowTutorial} />}
       {showCloseConfirm && (
         <CloseConfirmModal
           onCancel={() => setShowCloseConfirm(false)}

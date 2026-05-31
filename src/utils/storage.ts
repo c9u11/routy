@@ -6,7 +6,7 @@ import { isInToss } from './tossEnv'
 // - 토스 인앱: Toss Storage에도 미러 기록 — Toss 앱 캐시 정리/재설치 시에도 데이터 보존
 // - 부팅 시 hydrate()로 Toss Storage → localStorage 백필 (필요할 때만)
 
-const KEYS = ['best_SPEED', 'best_INFINITY', 'nc_tutorial_done', 'routy_settings_v1'] as const
+const KEYS = ['best_SPEED', 'best_INFINITY', 'nc_tutorial_SPEED', 'nc_tutorial_INFINITY', 'routy_settings_v1'] as const
 
 export function getString(key: string): string | null {
   try {

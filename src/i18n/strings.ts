@@ -51,6 +51,11 @@ const ko = {
     shake: { label: '화면 흔들림', desc: '도착·게임오버 시 화면 흔들기' },
     sound: { label: '사운드', desc: '연결·도착·게임오버 효과음' },
     language: { label: '언어', desc: '앱 표시 언어' },
+    theme: { label: '테마', desc: '화면 밝기 모드' },
+    themeSystem: '시스템',
+    themeLight: '라이트',
+    themeDark: '다크',
+    howToPlay: { label: '게임 방법', desc: '모드별 플레이 방법 다시 보기' },
   },
   close: {
     title: '길찾기 퍼즐을 종료할까요?',
@@ -58,15 +63,29 @@ const ko = {
     confirm: '종료하기',
   },
   tutorial: {
-    title: '게임 방법',
     start: '시작하기',
-    steps: [
-      { icon: '👆', title: '시작 노드에서 출발', desc: '파란 "시작" 노드에서 드래그를 시작하세요.' },
-      { icon: '🔗', title: '경로 연결', desc: '상하좌우 인접 노드를 따라 드래그해 "도착" 노드까지 연결하세요.' },
-      { icon: '🎯', title: '멀리 돌아가면 고득점', desc: '중간 노드를 많이 거칠수록 점수가 폭발적으로 증가합니다.' },
-      { icon: '🔶', title: '주황 테두리 노드', desc: '통과하면 인접한 방해물을 제거합니다. 적극 활용하세요!' },
-      { icon: '🎮', title: '모드 선택', desc: 'Speed는 시간 제한 / Infinity는 목숨 3개로 최장 경로 도전.' },
+    close: '확인',
+    pickMode: '어떤 모드를 볼까요?',
+    commonTitle: '공통 규칙',
+    common: [
+      '파란 "시작"에서 드래그해 상하좌우로 이어 "도착"까지 연결하세요.',
+      '중간 노드를 많이 거칠수록 점수가 제곱으로 늘어요.',
+      '주황 테두리(트리거)를 지나면 인접한 방해물을 통과할 수 있어요.',
     ],
+    speed: {
+      name: 'Speed Mode',
+      points: [
+        '제한 시간 안에 도착까지 연결하면 다음 라운드로 이어져요.',
+        '최장 경로로 클리어하면 보너스 점수를 받아요.',
+      ],
+    },
+    infinity: {
+      name: 'Infinity Mode',
+      points: [
+        '목숨은 3개 — 경로가 짧으면 목숨이 줄어요.',
+        '최장 경로(완벽!)면 목숨을 지키며 끝없이 도전할 수 있어요.',
+      ],
+    },
   },
 }
 
@@ -119,6 +138,11 @@ const en: Messages = {
     shake: { label: 'Screen shake', desc: 'Shake screen on goal & game over' },
     sound: { label: 'Sound', desc: 'Connect / goal / game-over effects' },
     language: { label: 'Language', desc: 'App display language' },
+    theme: { label: 'Theme', desc: 'Display brightness mode' },
+    themeSystem: 'System',
+    themeLight: 'Light',
+    themeDark: 'Dark',
+    howToPlay: { label: 'How to Play', desc: 'Replay the guide for each mode' },
   },
   close: {
     title: 'Quit Path Puzzle?',
@@ -126,15 +150,29 @@ const en: Messages = {
     confirm: 'Quit',
   },
   tutorial: {
-    title: 'How to Play',
     start: 'Start',
-    steps: [
-      { icon: '👆', title: 'Start from the start node', desc: 'Begin dragging from the blue "Start" node.' },
-      { icon: '🔗', title: 'Connect the path', desc: 'Drag through adjacent nodes (up/down/left/right) to reach the "Goal".' },
-      { icon: '🎯', title: 'Longer route, higher score', desc: 'The more waypoints you pass, the more your score explodes.' },
-      { icon: '🔶', title: 'Orange-bordered nodes', desc: 'Passing one clears the adjacent obstacle. Use them well!' },
-      { icon: '🎮', title: 'Pick a mode', desc: 'Speed is time-limited / Infinity gives 3 lives to chase the longest path.' },
+    close: 'Got it',
+    pickMode: 'Which mode?',
+    commonTitle: 'Common rules',
+    common: [
+      'Drag from the blue "Start" through adjacent nodes to reach the "Goal".',
+      'The more waypoints you pass, the more your score grows (squared).',
+      'Pass an orange-bordered node (trigger) to clear the adjacent obstacle.',
     ],
+    speed: {
+      name: 'Speed Mode',
+      points: [
+        'Reach the goal before time runs out to advance to the next round.',
+        'Clear with the longest path for a bonus score.',
+      ],
+    },
+    infinity: {
+      name: 'Infinity Mode',
+      points: [
+        '3 lives — a short path costs you a life.',
+        'Take the longest path (Perfect!) to keep your lives and play forever.',
+      ],
+    },
   },
 }
 

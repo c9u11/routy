@@ -1,14 +1,20 @@
+import type { GameMode } from '../types/game'
 import { useT } from '../i18n/strings'
 import { useTheme } from '../theme/theme'
+import TutorialDemo from './TutorialDemo'
 
 interface Props {
+  mode: GameMode
   onDone: () => void
+  viewOnly?: boolean
 }
 
-export default function Tutorial({ onDone }: Props) {
+export default function Tutorial({ mode, onDone, viewOnly }: Props) {
   const t = useT()
   const c = useTheme()
-  const STEPS = t.tutorial.steps
+  const modeText = mode === 'SPEED' ? t.tutorial.speed : t.tutorial.infinity
+  const accent = mode === 'SPEED' ? '#1677ff' : '#722ed1'
+
   return (
     <div
       style={{
@@ -26,59 +32,57 @@ export default function Tutorial({ onDone }: Props) {
         style={{
           background: c.surface,
           borderRadius: 28,
-          padding: '32px 24px 28px',
+          padding: '28px 24px 24px',
           width: '100%',
           maxWidth: 400,
+          maxHeight: '88dvh',
+          overflowY: 'auto',
         }}
       >
-        <div style={{ fontSize: 20, fontWeight: 800, color: c.text, marginBottom: 24 }}>
-          {t.tutorial.title}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
+          <span style={{ fontSize: 22 }}>{mode === 'SPEED' ? '⚡' : '∞'}</span>
+          <span style={{ fontSize: 20, fontWeight: 800, color: c.text }}>{modeText.name}</span>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 28 }}>
-          {STEPS.map((step, i) => (
-            <div key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 12,
-                  background: c.surfaceAlt,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 20,
-                  flexShrink: 0,
-                }}
-              >
-                {step.icon}
-              </div>
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: c.text, marginBottom: 2 }}>
-                  {step.title}
-                </div>
-                <div style={{ fontSize: 13, color: c.textMuted, lineHeight: 1.5 }}>{step.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <TutorialDemo mode={mode} />
+
+        <Section title={t.tutorial.commonTitle} points={t.tutorial.common} color={c.textMuted} text={c.text} />
+        <div style={{ height: 14 }} />
+        <Section title={modeText.name} points={modeText.points} color={accent} text={c.text} />
 
         <button
           onClick={onDone}
           style={{
             width: '100%',
+            marginTop: 24,
             padding: '16px',
             borderRadius: 14,
             border: 'none',
-            background: '#1677ff',
+            background: accent,
             color: 'white',
             fontWeight: 800,
             fontSize: 16,
             cursor: 'pointer',
           }}
         >
-          {t.tutorial.start}
+          {viewOnly ? t.tutorial.close : t.tutorial.start}
         </button>
+      </div>
+    </div>
+  )
+}
+
+function Section({ title, points, color, text }: { title: string; points: string[]; color: string; text: string }) {
+  return (
+    <div>
+      <div style={{ fontSize: 13, fontWeight: 700, color, marginBottom: 8, letterSpacing: 0.3 }}>{title}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {points.map((p, i) => (
+          <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+            <span style={{ color, fontWeight: 900, lineHeight: 1.5, flexShrink: 0 }}>·</span>
+            <span style={{ fontSize: 13.5, color: text, lineHeight: 1.5 }}>{p}</span>
+          </div>
+        ))}
       </div>
     </div>
   )
