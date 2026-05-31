@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react'
-import type { NodeData, BreakDirection, GameMode } from '../types/game'
+import type { NodeData, BreakDirection, GameMode, RoundRating } from '../types/game'
+import { useT } from '../i18n/strings'
 import NodeCell from './Node'
 
-// 입력 없이 시작→경유→도착으로 경로가 그려지는 데모 애니메이션. 모드별 격자 구성.
+// 입력 없이 경로가 그려지는 데모. Excellent → Good → Clear 평점 케이스를
+// 차례로 한 번씩 시연하고 반복. 모드별 격자 구성.
 
 type Cell = [number, number]
+
+interface Variant {
+  tier: RoundRating
+  path: Cell[]
+}
 
 interface DemoSpec {
   size: number
@@ -12,37 +19,55 @@ interface DemoSpec {
   goal: Cell
   triggers: Cell[]
   obstacles: { pos: Cell; dir?: BreakDirection }[]
-  path: Cell[]
+  variants: Variant[]
+}
+
+const TIER_COLOR: Record<GameMode, Record<RoundRating, string>> = {
+  SPEED: { EXCELLENT: '#fa8c16', GOOD: '#1677ff', CLEAR: '#8c8c8c' },
+  INFINITY: { EXCELLENT: '#fa8c16', GOOD: '#1677ff', CLEAR: '#cf1322' },
 }
 
 const SPECS: Record<GameMode, DemoSpec> = {
-  // 길게 돌아갈수록 고득점 — 9칸을 모두 거치는 winding path
+  // 3×3, 최장 = 9칸(waypoint 7). 방해물/트리거 없음.
   SPEED: {
     size: 3,
     start: [0, 0],
     goal: [2, 2],
     triggers: [],
     obstacles: [],
-    path: [[0, 0], [1, 0], [2, 0], [2, 1], [1, 1], [0, 1], [0, 2], [1, 2], [2, 2]],
+    variants: [
+      { tier: 'EXCELLENT', path: [[0, 0], [1, 0], [2, 0], [2, 1], [1, 1], [0, 1], [0, 2], [1, 2], [2, 2]] }, // wp7
+      { tier: 'GOOD', path: [[0, 0], [0, 1], [1, 1], [1, 0], [2, 0], [2, 1], [2, 2]] }, // wp5
+      { tier: 'CLEAR', path: [[0, 0], [0, 1], [0, 2], [1, 2], [2, 2]] }, // wp3
+    ],
   },
-  // 진짜 최장 경로 시연. 4×4에서 (0,0)→(3,3)은 동일 색이라 16칸 전체는 불가능,
-  // 최대 15칸(1칸만 건너뜀)이 최장. (0,1)트리거 → (1,1)방해물 통과 포함.
+  // 4×4, 최장 = 15칸(waypoint 13). (0,1)트리거 → (1,1)방해물 통과.
   INFINITY: {
     size: 4,
     start: [0, 0],
     goal: [3, 3],
     triggers: [[0, 1]],
     obstacles: [{ pos: [1, 1], dir: 'UP' }],
-    path: [
-      [0, 0], [0, 1], [0, 2], [0, 3],
-      [1, 3], [1, 2], [1, 1], [1, 0],
-      [2, 0], [2, 1], [3, 1], [3, 2],
-      [2, 2], [2, 3], [3, 3],
+    variants: [
+      {
+        tier: 'EXCELLENT',
+        path: [[0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [1, 2], [1, 1], [1, 0], [2, 0], [2, 1], [3, 1], [3, 2], [2, 2], [2, 3], [3, 3]], // wp13
+      },
+      {
+        tier: 'GOOD',
+        path: [[0, 0], [0, 1], [0, 2], [0, 3], [1, 3], [1, 2], [1, 1], [1, 0], [2, 0], [2, 1], [2, 2], [2, 3], [3, 3]], // wp11
+      },
+      {
+        tier: 'CLEAR',
+        path: [[0, 0], [1, 0], [2, 0], [3, 0], [3, 1], [3, 2], [3, 3]], // wp5, 방해물 우회
+      },
     ],
   },
 }
 
 const GAP = 8
+const STEP_MS = 250
+const HOLD_TICKS = 3 // 경로 완성 후 멈춤(평점 강조)
 
 function id(r: number, c: number) {
   return `${r}-${c}`
@@ -70,7 +95,6 @@ function buildMatrix(spec: DemoSpec, activeIds: Set<string>, triggerPassed: bool
       else if (obstacle) {
         base.type = 'OBSTACLE'
         base.breakDirection = obstacle.dir
-        // 트리거를 지난 뒤에는 통과 가능(pending) 상태로 열림
         base.isPendingRemoval = triggerPassed
       }
       return base
@@ -79,28 +103,30 @@ function buildMatrix(spec: DemoSpec, activeIds: Set<string>, triggerPassed: bool
 }
 
 export default function TutorialDemo({ mode }: { mode: GameMode }) {
+  const t = useT()
   const spec = SPECS[mode]
-  const [step, setStep] = useState(1)
+  const [s, setS] = useState({ vi: 0, step: 1, hold: 0 })
 
-  // 경로를 한 칸씩 늘렸다가, 끝까지 차면 잠시 멈춘 뒤 리셋해 반복
   useEffect(() => {
-    setStep(1)
-    const HOLD = 3
-    let s = 1
+    setS({ vi: 0, step: 1, hold: 0 })
     const timer = setInterval(() => {
-      s = s >= spec.path.length + HOLD ? 1 : s + 1
-      setStep(s)
-    }, 400)
+      setS(prev => {
+        const path = spec.variants[prev.vi].path
+        if (prev.step < path.length) return { ...prev, step: prev.step + 1, hold: 0 }
+        if (prev.hold < HOLD_TICKS) return { ...prev, hold: prev.hold + 1 }
+        return { vi: (prev.vi + 1) % spec.variants.length, step: 1, hold: 0 }
+      })
+    }, STEP_MS)
     return () => clearInterval(timer)
-  }, [mode, spec.path.length])
+  }, [mode, spec])
 
-  const shown = Math.min(step, spec.path.length)
-  const activePath = spec.path.slice(0, shown)
+  const variant = spec.variants[s.vi]
+  const shown = Math.min(s.step, variant.path.length)
+  const activePath = variant.path.slice(0, shown)
   const activeIds = new Set(activePath.map(([r, c]) => id(r, c)))
   const triggerPassed = spec.triggers.some(([r, c]) => activeIds.has(id(r, c)))
   const matrix = buildMatrix(spec, activeIds, triggerPassed)
 
-  // 컨테이너 폭에 맞춰 노드 크기 산출 (최대 240px)
   const maxWidth = Math.min(240, spec.size * 56)
   const nodeSize = Math.floor((maxWidth - GAP * (spec.size - 1)) / spec.size)
   const total = nodeSize * spec.size + GAP * (spec.size - 1)
@@ -113,8 +139,26 @@ export default function TutorialDemo({ mode }: { mode: GameMode }) {
   const fingerX = last ? last[1] * (nodeSize + GAP) + nodeSize / 2 : 0
   const fingerY = last ? last[0] * (nodeSize + GAP) + nodeSize / 2 : 0
 
+  const tierLabel = (mode === 'INFINITY' ? t.toast.infinity : t.toast.speed)[variant.tier].label
+  const tierColor = TIER_COLOR[mode][variant.tier]
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+      {/* 현재 시연 중인 평점 배지 */}
+      <div
+        style={{
+          padding: '4px 14px',
+          borderRadius: 99,
+          background: tierColor,
+          color: 'white',
+          fontSize: 14,
+          fontWeight: 800,
+          transition: 'background 0.2s',
+        }}
+      >
+        {tierLabel}
+      </div>
+
       <div style={{ position: 'relative', width: total, height: total }}>
         <svg
           style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'visible' }}
@@ -141,7 +185,6 @@ export default function TutorialDemo({ mode }: { mode: GameMode }) {
           ))
         )}
 
-        {/* 따라 움직이는 손가락 표시 */}
         {last && (
           <div
             style={{
@@ -150,7 +193,7 @@ export default function TutorialDemo({ mode }: { mode: GameMode }) {
               top: fingerY,
               fontSize: nodeSize * 0.7,
               transform: 'translate(-10%, -10%)',
-              transition: 'left 0.3s ease, top 0.3s ease',
+              transition: 'left 0.18s ease, top 0.18s ease',
               pointerEvents: 'none',
               filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.3))',
             }}
