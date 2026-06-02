@@ -34,11 +34,12 @@
   - `Readme.html` — PWABuilder 안내
 
 ### 서명 키 정보
-- **Keystore password**: `IjaB7zGesGkp` (PWABuilder 자동 생성)
+- **Keystore password**: 비밀번호 매니저에 보관 (이 문서·저장소에 평문 기록 금지)
 - **Key alias**: `routy`
-- **Key password**: `IjaB7zGesGkp` (same)
+- **Key password**: 비밀번호 매니저에 보관 (저장소에 기록 금지)
 - **Signer CN/O/OU/C**: `Routy / Routy / Engineering / KR`
-- ⚠️ 키스토어 파일 분실 시 같은 패키지명으로 Play 업데이트 불가. `signing.keystore` 별도 안전한 곳에 백업 권장.
+- ⚠️ 키스토어 파일 분실 시 같은 패키지명으로 Play 업데이트 불가. `signing.keystore`는 gitignore된 `Routy - Google Play package/`에만 두고, 비밀번호는 비밀번호 매니저에 별도 보관.
+- ⚠️ 비밀번호는 절대 커밋 금지 — 과거 평문 노출로 키스토어 비밀번호를 교체했다면 새 값도 여기 적지 말 것.
 
 ## 남은 작업 (재개 시 이곳부터)
 
