@@ -51,3 +51,7 @@ ios/App/App/public/
 # 첫 빌드 시 자동 생성되는 임시 파일들
 ios/App/App.xcworkspace/contents.xcworkspacedata
 *.xcuserstate
+
+# 대표자 서명/인감 이미지 — 개인 서명 포함, 절대 커밋 금지
+*signature*
+assets/console/signature*
